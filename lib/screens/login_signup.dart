@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:alerto_cdo_v1/screens/login.dart';
+import 'package:alerto_cdo_v1/screens/signup.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -40,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
             fit: BoxFit.cover,
           )),
           child: Column(
-            children: [
+            children: <Widget>[
               Container(
                 margin: EdgeInsets.only(top: 100),
                 child: Image(image: AssetImage('assets/logo.png')),
@@ -59,7 +61,10 @@ Widget btnLogin(BuildContext context) => Container(
       width: 200,
       height: 50,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => new LoginScreen()));
+        },
         child: Text('LOG IN', style: TextStyle(fontSize: 20)),
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
@@ -74,9 +79,12 @@ Widget btnRegister(BuildContext context) => Container(
       height: 50,
       child: ElevatedButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/signup');
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => new SignUpFormScreen()));
         },
-        child: Text('REGISTER', style: TextStyle(fontSize: 20)),
+        child: Text('SIGN UP', style: TextStyle(fontSize: 20)),
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
