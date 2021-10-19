@@ -3,6 +3,11 @@ import 'dart:ui';
 import 'package:alerto_cdo_v1/screens/login.dart';
 import 'package:alerto_cdo_v1/screens/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import '../google_login_controller.dart';
+import 'home.dart';
 
 void main() {
   runApp(Login_Signup());
@@ -10,6 +15,7 @@ void main() {
 
 class Login_Signup extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,6 +38,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final controller = Get.put(LoginController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,8 +55,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 margin: EdgeInsets.only(top: 100),
                 child: Image(image: AssetImage('assets/logo.png')),
               ),
+              // Obx(() {
+              //   if (controller.googleAccount.value == null)
+              //     return Login_Signup();
+              //   else
+              //     return
+              // }),
               btnLogin(context),
               btnRegister(context),
+              btnEmail(context)
             ],
           )),
     );
@@ -89,4 +104,25 @@ Widget btnRegister(BuildContext context) => Container(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
       ),
+    ));
+
+Widget btnEmail(BuildContext context) => Container(
+    margin: EdgeInsets.only(top: 20),
+    child: FloatingActionButton.extended(
+      onPressed: () {
+        GoogleSignIn().signIn();
+
+        Navigator.push(context,
+            new MaterialPageRoute(builder: (context) => new HomeScreen()));
+      },
+      icon: Image.asset(
+        'assets/google_logo.png',
+        height: 32,
+        width: 32,
+      ),
+      label: Text(
+        'Sign in with Google',
+        style: TextStyle(color: Colors.black),
+      ),
+      backgroundColor: Colors.white,
     ));

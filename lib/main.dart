@@ -4,8 +4,10 @@ import 'package:alerto_cdo_v1/screens/home.dart';
 import 'package:alerto_cdo_v1/screens/infographic.dart';
 import 'package:alerto_cdo_v1/screens/login.dart';
 import 'package:alerto_cdo_v1/screens/login_signup.dart';
+import 'package:alerto_cdo_v1/screens/report_emergency.dart';
 import 'package:alerto_cdo_v1/screens/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,13 +22,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      initialRoute: '/infographic',
+      initialRoute: '/',
       routes: {
         '/': (context) => Login_Signup(),
         '/signup': (context) => SignUpFormScreen(),
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
         '/infographic': (context) => InfographicScreen(),
+        'report_emer': (context) => ReportEmergency(),
       },
     );
   }

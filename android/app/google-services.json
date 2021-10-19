@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "838219923714",
+    "project_id": "alertocdo",
+    "storage_bucket": "alertocdo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838219923714:android:206b34fd3e88129622c21b",
+        "android_client_info": {
+          "package_name": "com.example.alerto_cdo_v1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838219923714-84tbdejg1b4dna7d444imk2dome34fo8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alerto_cdo_v1",
+            "certificate_hash": "663b47546b8f2b9da7b343200c5a82fa597078b4"
+          }
+        },
+        {
+          "client_id": "838219923714-q2rpoehhc90htd7g5cdbolg5ddrd7llj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBh-DZcLEfBAJbb8G5QVbeB_jQ_iotZHO0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "838219923714-q2rpoehhc90htd7g5cdbolg5ddrd7llj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

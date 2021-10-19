@@ -1,36 +1,85 @@
+import 'package:alerto_cdo_v1/google_login_controller.dart';
+import 'package:alerto_cdo_v1/my_icons_icons.dart';
 import 'package:alerto_cdo_v1/screens/infographic.dart';
+import 'package:alerto_cdo_v1/screens/login.dart';
+import 'package:alerto_cdo_v1/screens/report_emergency.dart';
 import 'package:alerto_cdo_v1/screens/signup.dart';
+import 'package:alerto_cdo_v1/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final controller = Get.put(LoginController());
+  // final auth = AuthService();
+  // var _googleSignIn = GoogleSignIn();
+  var googleAccount = Rx<GoogleSignInAccount?>(null);
+
+  HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'DASHBOARD',
-          textAlign: TextAlign.center,
+        title: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 65),
+              child: Text(
+                'DASHBOARD',
+              ),
+            ),
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 70),
+                child: Image.asset(
+                  'assets/logo3.png',
+                  fit: BoxFit.contain,
+                  height: 50,
+                ),
+              ),
+            )
+          ],
         ),
+        backgroundColor: Colors.black,
       ),
       drawer: Drawer(
         child: ListView(
           children: [
-            const DrawerHeader(
+            DrawerHeader(
                 decoration: BoxDecoration(
                   color: Colors.red,
                 ),
-                child: Text('Profile')),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage:
+                          Image.network(googleAccount.value?.photoUrl ?? '')
+                              .image,
+                      radius: 80,
+                    )
+                  ],
+                )),
             ListTile(
-              title: Text('Account'),
+              title: Text(
+                googleAccount.value?.displayName ?? '',
+                style: Get.textTheme.headline3,
+              ),
               onTap: () {},
             ),
             ListTile(
-              title: Text('Gwapo'),
+              title: Text(
+                googleAccount.value?.email ?? '',
+                style: Get.textTheme.bodyText1,
+              ),
               onTap: () {},
-            )
+            ),
+            ListTile(
+                title: Text('Logout'),
+                onTap: () {
+                  // print(controller.getName());
+                })
           ],
         ),
       ),
@@ -53,8 +102,8 @@ class _HomeState extends State<Home> {
       child: Column(
         children: [
           Container(
-              margin: EdgeInsets.all(2),
-              color: Color(0xffff868c),
+              margin: EdgeInsets.all(0),
+              color: Color(0xffBA0F30),
               child: SizedBox(
                 width: 400,
                 height: 200,
@@ -62,6 +111,7 @@ class _HomeState extends State<Home> {
           first_row(context),
           second_row(),
           call_now(),
+          emergency(context),
         ],
       ),
     );
@@ -81,7 +131,10 @@ Widget first_row(BuildContext context) => Container(
               child: OutlinedButton.icon(
                 label: Text(
                   'Infographics',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
                 ),
                 onPressed: () {
                   Navigator.push(
@@ -89,9 +142,12 @@ Widget first_row(BuildContext context) => Container(
                       new MaterialPageRoute(
                           builder: (context) => new InfographicScreen()));
                 },
-                icon: Icon(Icons.menu_open_outlined),
+                icon: Icon(
+                  Icons.menu_open_outlined,
+                  color: Colors.white,
+                ),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xffff868c)),
+                  backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
                 ),
               ),
             ),
@@ -104,12 +160,22 @@ Widget first_row(BuildContext context) => Container(
               child: OutlinedButton.icon(
                 label: Text(
                   'Covid-19',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
-                onPressed: () {},
-                icon: Icon(Icons.menu_open_outlined),
+                onPressed: () {
+                  GoogleSignIn().signOut();
+
+                  Navigator.pop(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new LoginScreen()));
+                },
+                icon: Icon(
+                  Icons.menu_open_outlined,
+                  color: Colors.white,
+                ),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xffff868c)),
+                  backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
                 ),
               ),
             ),
@@ -131,12 +197,18 @@ Widget second_row() => Container(
               child: OutlinedButton.icon(
                 label: Text(
                   'Profile',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
                 ),
                 onPressed: () {},
-                icon: Icon(Icons.account_box_sharp),
+                icon: Icon(
+                  Icons.account_box_sharp,
+                  color: Colors.white,
+                ),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xffff868c)),
+                  backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
                 ),
               ),
             ),
@@ -149,12 +221,15 @@ Widget second_row() => Container(
               child: OutlinedButton.icon(
                 label: Text(
                   'About us',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
                 onPressed: () {},
-                icon: Icon(Icons.info),
+                icon: Icon(
+                  Icons.info,
+                  color: Colors.white,
+                ),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xffff868c)),
+                  backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
                 ),
               ),
             ),
@@ -177,6 +252,33 @@ Widget call_now() => Padding(
           icon: Icon(Icons.call),
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Color(0xff828282)),
+          ),
+        ),
+      ),
+    );
+
+Widget emergency(context) => Padding(
+      padding: const EdgeInsets.fromLTRB(2, 180, 2, 2),
+      child: SizedBox(
+        width: 360,
+        height: 60,
+        child: OutlinedButton.icon(
+          label: Text(
+            'EMERGENCY',
+            style: TextStyle(color: Colors.white),
+          ),
+          onPressed: () {
+            Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new ReportEmergency()));
+          },
+          icon: Icon(
+            Icons.warning,
+            color: Colors.white,
+          ),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Color(0xffFF0000)),
           ),
         ),
       ),
