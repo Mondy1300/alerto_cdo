@@ -1,8 +1,8 @@
 import 'package:alerto_cdo_v1/google_login_controller.dart';
 import 'package:alerto_cdo_v1/my_icons_icons.dart';
-import 'package:alerto_cdo_v1/screens/infographic.dart';
+import 'package:alerto_cdo_v1/screens/users/infographics/infographic.dart';
 import 'package:alerto_cdo_v1/screens/login.dart';
-import 'package:alerto_cdo_v1/screens/report_emergency.dart';
+import 'package:alerto_cdo_v1/screens/users/report_emergency.dart';
 import 'package:alerto_cdo_v1/screens/signup.dart';
 import 'package:alerto_cdo_v1/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +12,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeScreen extends StatelessWidget {
   final controller = Get.put(LoginController());
+  final AuthService _auth = AuthService();
   // final auth = AuthService();
   // var _googleSignIn = GoogleSignIn();
   var googleAccount = Rx<GoogleSignInAccount?>(null);
@@ -33,10 +34,13 @@ class HomeScreen extends StatelessWidget {
             Container(
               child: Padding(
                 padding: const EdgeInsets.only(left: 70),
-                child: Image.asset(
-                  'assets/logo3.png',
-                  fit: BoxFit.contain,
-                  height: 50,
+                child: InkWell(
+                  onTap: () {},
+                  child: Image.asset(
+                    'assets/logo3.png',
+                    fit: BoxFit.contain,
+                    height: 50,
+                  ),
                 ),
               ),
             )
@@ -77,7 +81,9 @@ class HomeScreen extends StatelessWidget {
             ),
             ListTile(
                 title: Text('Logout'),
-                onTap: () {
+                onTap: () async {
+                  await _auth.signOut();
+
                   // print(controller.getName());
                 })
           ],

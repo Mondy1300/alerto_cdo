@@ -1,15 +1,20 @@
 import 'dart:ui';
 
-import 'package:alerto_cdo_v1/screens/home.dart';
-import 'package:alerto_cdo_v1/screens/infographic.dart';
+import 'package:alerto_cdo_v1/screens/admin/admin_home.dart';
+import 'package:alerto_cdo_v1/screens/users/home.dart';
+import 'package:alerto_cdo_v1/screens/users/infographics/infographic.dart';
 import 'package:alerto_cdo_v1/screens/login.dart';
 import 'package:alerto_cdo_v1/screens/login_signup.dart';
-import 'package:alerto_cdo_v1/screens/report_emergency.dart';
+import 'package:alerto_cdo_v1/screens/users/report_emergency.dart';
 import 'package:alerto_cdo_v1/screens/signup.dart';
+import 'package:alerto_cdo_v1/screens/wrapper.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -22,14 +27,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      initialRoute: '/',
+      initialRoute: '/wrapper',
       routes: {
         '/': (context) => Login_Signup(),
+        '/wrapper': (context) => Wrapper(),
         '/signup': (context) => SignUpFormScreen(),
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
         '/infographic': (context) => InfographicScreen(),
-        'report_emer': (context) => ReportEmergency(),
+        '/report_emer': (context) => ReportEmergency(),
+        '/admin_home': (context) => AdminHomeScreen(),
       },
     );
   }

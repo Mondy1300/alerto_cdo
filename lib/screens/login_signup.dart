@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../google_login_controller.dart';
-import 'home.dart';
+import 'users/home.dart';
 
 void main() {
   runApp(Login_Signup());

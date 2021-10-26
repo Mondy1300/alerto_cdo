@@ -1,4 +1,4 @@
-import 'package:alerto_cdo_v1/screens/home.dart';
+import 'package:alerto_cdo_v1/screens/users/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +24,9 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  String email = '';
+  String password = '';
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,6 +57,9 @@ class _LoginFormState extends State<LoginForm> {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
                     child: TextFormField(
+                      onChanged: (value) {
+                        setState(() => email = value);
+                      },
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -67,6 +73,9 @@ class _LoginFormState extends State<LoginForm> {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                     child: TextFormField(
+                      onChanged: (value) {
+                        setState(() => password = value);
+                      },
                       obscureText: true,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
@@ -85,6 +94,8 @@ class _LoginFormState extends State<LoginForm> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {
+                            // print(email);
+                            // print(password);
                             Navigator.push(
                                 context,
                                 new MaterialPageRoute(

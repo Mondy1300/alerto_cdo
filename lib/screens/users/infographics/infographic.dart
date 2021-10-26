@@ -1,4 +1,5 @@
-import 'package:alerto_cdo_v1/screens/report_emergency.dart';
+import 'package:alerto_cdo_v1/screens/users/infographics/flood.dart';
+import 'package:alerto_cdo_v1/screens/users/report_emergency.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -119,7 +120,12 @@ Widget flood(BuildContext context) => Container(
                   color: Colors.white,
                   fontSize: 16,
                 )),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new FloodInfoScreen()));
+            },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
             )),
