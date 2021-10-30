@@ -1,5 +1,7 @@
 import 'package:alerto_cdo_v1/google_login_controller.dart';
+import 'package:alerto_cdo_v1/loading.dart';
 import 'package:alerto_cdo_v1/my_icons_icons.dart';
+import 'package:alerto_cdo_v1/screens/users/accountinfo.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/infographic.dart';
 import 'package:alerto_cdo_v1/screens/login.dart';
 import 'package:alerto_cdo_v1/screens/users/report_emergency.dart';
@@ -58,32 +60,38 @@ class HomeScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     CircleAvatar(
-                      backgroundImage:
-                          Image.network(googleAccount.value?.photoUrl ?? '')
-                              .image,
-                      radius: 80,
-                    )
+                        // backgroundImage:
+                        //     Image.network(googleAccount.value?.photoUrl ?? '')
+                        //         .image,
+                        // radius: 80,
+                        )
                   ],
                 )),
             ListTile(
-              title: Text(
-                googleAccount.value?.displayName ?? '',
-                style: Get.textTheme.headline3,
-              ),
-              onTap: () {},
+              title: Text('Update Profile'
+                  // googleAccount.value?.displayName ?? '',
+                  // style: Get.textTheme.headline3,
+                  ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new AccountInfoScreen()));
+              },
             ),
             ListTile(
-              title: Text(
-                googleAccount.value?.email ?? '',
-                style: Get.textTheme.bodyText1,
-              ),
-              onTap: () {},
+              title: Text('Help'
+                  // googleAccount.value?.email ?? '',
+                  // style: Get.textTheme.bodyText1,
+                  ),
+              onTap: () {
+                Navigator.push(context,
+                    new MaterialPageRoute(builder: (context) => new Loading()));
+              },
             ),
             ListTile(
                 title: Text('Logout'),
-                onTap: () async {
-                  await _auth.signOut();
-
+                onTap: () {
                   // print(controller.getName());
                 })
           ],

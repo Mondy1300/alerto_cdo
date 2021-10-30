@@ -12,17 +12,13 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userInstance = Provider.of<Users?>(context);
-    print(userInstance);
+    // print(userInstance);
 
-    //authen or home
-    return StreamBuilder(
-        stream: AuthService().user,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return HomeScreen();
-          } else {
-            return Login_Signup();
-          }
-        });
+    if (userInstance == null) {
+      // print(userInstance);
+      return Login_Signup();
+    } else {
+      return HomeScreen();
+    }
   }
 }

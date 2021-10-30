@@ -260,6 +260,9 @@ class _SignUpFormState extends State<SignUpForm> {
               _formKey.currentState!.save();
               inspect(_user);
               addUsers();
+              dynamic result = await _auth.signInAnon();
+              print(result.uid);
+
               Navigator.push(
                   context,
                   new MaterialPageRoute(
