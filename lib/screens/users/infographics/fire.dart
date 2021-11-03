@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class FloodInfoScreen extends StatelessWidget {
-  const FloodInfoScreen({Key? key}) : super(key: key);
+class FireInfoScreen extends StatelessWidget {
+  const FireInfoScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,13 +11,13 @@ class FloodInfoScreen extends StatelessWidget {
         title: Text('FLOOD'),
         backgroundColor: Colors.blue[400],
       ),
-      body: FloodInfoBody(),
+      body: FireInfoBody(),
     );
   }
 }
 
-class FloodInfoBody extends StatelessWidget {
-  const FloodInfoBody({Key? key}) : super(key: key);
+class FireInfoBody extends StatelessWidget {
+  const FireInfoBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,29 +27,23 @@ class FloodInfoBody extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             image: DecorationImage(
-                image: AssetImage("assets/flood/BG.png"), fit: BoxFit.cover)),
+                image: AssetImage("assets/fire/BG.png"), fit: BoxFit.cover)),
         child: Stack(
           children: [
             PageView(
               controller: _pgcontroller,
               children: [
-                // Container(
-                //   child: Image(
-                //     image: AssetImage('/assets/flood/zigzag line.png'),
-                //   ),
-                // ),
                 Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 160),
+                        padding: const EdgeInsets.only(left: 10, top: 150),
                         child: SizedBox(
-                          child: Image(
-                            image: AssetImage('assets/flood/before.png'),
-                            height: 65,
-                          ),
-                        ),
+                            child: Image(
+                          image: AssetImage('assets/flood/before.png'),
+                          height: 65,
+                        )),
                       ),
                       Expanded(
                         child: before(),
@@ -84,7 +78,7 @@ class FloodInfoBody extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Expanded(child: after())
+                    // Expanded(child: after())
                   ],
                 ),
               ],
@@ -117,38 +111,25 @@ class FloodInfoBody extends StatelessWidget {
             padding: const EdgeInsets.only(left: 0, top: 10),
             child: Container(
               child: Image(
-                image: AssetImage('assets/flood/Before1.png'),
-                // height: 125,
+                image: AssetImage('assets/fire/f1.png'),
+                // height: 150,
               ),
             ),
           ),
+         
         ],
       );
 
-  Widget during() => ListView(
+      Widget during() => ListView(
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          
           Padding(
-            padding: const EdgeInsets.only(left: 15, top: 20),
+            padding: const EdgeInsets.only(left: 0, top: 10),
             child: Container(
               child: Image(
-                image: AssetImage('assets/flood/During1.png'),
-                // height: 125,
-              ),
-            ),
-          ),
-        ],
-      );
-
-  Widget after() => ListView(
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15, top: 10),
-            child: Container(
-              child: Image(
-                image: AssetImage('assets/flood/After1.png'),
-                // height: 125,
+                image: AssetImage('assets/fire/f2.png'),
+                // height: 150,
               ),
             ),
           ),

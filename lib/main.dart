@@ -26,15 +26,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // return StreamProvider<Users?>.value(
-    //   initialData: null,
-    //   value: AuthService().user,
-    //   child:
+    //     initialData: null,
+    //     value: AuthService().user,
     return MaterialApp(
       title: 'Alerto CDO',
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      initialRoute: '/wrapper',
+      initialRoute: '/login',
       routes: {
         '/': (context) => Login_Signup(),
         '/wrapper': (context) => Wrapper(),

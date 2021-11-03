@@ -67,6 +67,9 @@ flutter:
   assets:
     - assets/
     - assets/flood/
+    - assets/fire/
+    - assets/earthquake/
+    - assets/buttons/
     
 
 

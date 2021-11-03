@@ -1,6 +1,7 @@
 import 'package:alerto_cdo_v1/google_login_controller.dart';
 import 'package:alerto_cdo_v1/loading.dart';
 import 'package:alerto_cdo_v1/my_icons_icons.dart';
+import 'package:alerto_cdo_v1/screens/admin/admin_home.dart';
 import 'package:alerto_cdo_v1/screens/users/accountinfo.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/infographic.dart';
 import 'package:alerto_cdo_v1/screens/login.dart';
@@ -14,7 +15,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeScreen extends StatelessWidget {
   final controller = Get.put(LoginController());
-  final AuthService _auth = AuthService();
+
   // final auth = AuthService();
   // var _googleSignIn = GoogleSignIn();
   var googleAccount = Rx<GoogleSignInAccount?>(null);
@@ -110,95 +111,78 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
           Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(image: AssetImage("assets/bg.jpg"))),
               margin: EdgeInsets.all(0),
-              color: Color(0xffBA0F30),
+              // color: Color(0xff900d0d),
               child: SizedBox(
                 width: 400,
                 height: 200,
               )),
           first_row(context),
-          second_row(),
+          second_row(context),
           call_now(),
           emergency(context),
         ],
       ),
     );
   }
-}
 
-Widget first_row(BuildContext context) => Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
-            child: SizedBox(
-              width: 160,
-              height: 80,
-              child: OutlinedButton.icon(
-                label: Text(
-                  'Infographics',
-                  style: TextStyle(
+  Widget first_row(BuildContext context) => Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+              child: SizedBox(
+                width: 160,
+                height: 80,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+              child: SizedBox(
+                width: 160,
+                height: 80,
+                child: OutlinedButton.icon(
+                  label: Text(
+                    'Covid-19',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                  onPressed: () async {
+                    // GoogleSignIn().signOut();
+                    await _auth.signOut;
+
+                    Navigator.pop(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new LoginScreen()));
+                  },
+                  icon: Icon(
+                    Icons.menu_open_outlined,
                     color: Colors.white,
-                    fontSize: 16,
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Color(0xffBA0F30)),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new InfographicScreen()));
-                },
-                icon: Icon(
-                  Icons.menu_open_outlined,
-                  color: Colors.white,
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
-                ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
-            child: SizedBox(
-              width: 160,
-              height: 80,
-              child: OutlinedButton.icon(
-                label: Text(
-                  'Covid-19',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                onPressed: () {
-                  GoogleSignIn().signOut();
+            )
+          ],
+        ),
+      );
+}
 
-                  Navigator.pop(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new LoginScreen()));
-                },
-                icon: Icon(
-                  Icons.menu_open_outlined,
-                  color: Colors.white,
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-
-Widget second_row() => Container(
+Widget second_row(context) => Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -237,7 +221,12 @@ Widget second_row() => Container(
                   'About us',
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new AdminHomeScreen()));
+                },
                 icon: Icon(
                   Icons.info,
                   color: Colors.white,

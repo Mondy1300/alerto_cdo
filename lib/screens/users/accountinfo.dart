@@ -2,6 +2,7 @@ import 'package:alerto_cdo_v1/loading.dart';
 import 'package:alerto_cdo_v1/model/user.dart';
 import 'package:alerto_cdo_v1/services/auth_service.dart';
 import 'package:alerto_cdo_v1/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,20 +40,28 @@ class _AccountBodyState extends State<AccountBody> {
     // final AuthService _auth = AuthService();
 
     // dynamic result = await _auth.signInAnon();
+    String? userid;
+
+    // FirebaseAuth auth = FirebaseAuth.instance;
+
+    // userid = auth.currentUser!.uid;
+
+    // print(userid);
+
     return Container(
       child: StreamBuilder<Users>(
-          stream: DatabaseService(uid: 'EZrJwKcbs8DTGDhhkyms').userData,
+          stream: DatabaseService(uid: '5f3K2ADYeEW3KdxEeyDKssss').userData,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               Users? userData = snapshot.data;
               return Form(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
+                  child: ListView(
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: 70.0),
                   Padding(
-                    padding: const EdgeInsets.only(left: 48),
+                    padding: const EdgeInsets.only(left: 20),
                     child: SizedBox(
                       width: 300,
                       child: TextFormField(
@@ -76,7 +85,7 @@ class _AccountBodyState extends State<AccountBody> {
                   ),
                   SizedBox(height: 20.0),
                   Padding(
-                    padding: const EdgeInsets.only(left: 48),
+                    padding: const EdgeInsets.only(left: 20),
                     child: SizedBox(
                       width: 300,
                       child: TextFormField(
@@ -100,7 +109,7 @@ class _AccountBodyState extends State<AccountBody> {
                   ),
                   SizedBox(height: 20.0),
                   Padding(
-                    padding: const EdgeInsets.only(left: 48),
+                    padding: const EdgeInsets.only(left: 20),
                     child: SizedBox(
                       width: 300,
                       child: TextFormField(
@@ -124,11 +133,11 @@ class _AccountBodyState extends State<AccountBody> {
                   ),
                   SizedBox(height: 20.0),
                   Padding(
-                    padding: const EdgeInsets.only(left: 48),
+                    padding: const EdgeInsets.only(left: 20),
                     child: SizedBox(
                       width: 300,
                       child: TextFormField(
-                        initialValue: userData.address,
+                        initialValue: userData.uid,
                         decoration: InputDecoration(
                           labelText: 'Address',
                           contentPadding: EdgeInsets.all(16.0),
@@ -148,7 +157,7 @@ class _AccountBodyState extends State<AccountBody> {
                   ),
                   SizedBox(height: 20.0),
                   Padding(
-                    padding: const EdgeInsets.only(left: 48),
+                    padding: const EdgeInsets.only(left: 20),
                     child: SizedBox(
                       width: 300,
                       child: TextFormField(
@@ -172,7 +181,7 @@ class _AccountBodyState extends State<AccountBody> {
                   ),
                   SizedBox(height: 20.0),
                   Padding(
-                    padding: const EdgeInsets.only(left: 48),
+                    padding: const EdgeInsets.only(left: 20),
                     child: SizedBox(
                       width: 300,
                       child: TextFormField(
@@ -197,7 +206,7 @@ class _AccountBodyState extends State<AccountBody> {
                   ),
                   SizedBox(height: 20.0),
                   Padding(
-                    padding: const EdgeInsets.only(left: 50),
+                    padding: const EdgeInsets.only(left: 20),
                     child: SizedBox(
                       width: 200,
                       height: 50,

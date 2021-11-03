@@ -260,8 +260,10 @@ class _SignUpFormState extends State<SignUpForm> {
               _formKey.currentState!.save();
               inspect(_user);
               addUsers();
-              dynamic result = await _auth.signInAnon();
-              print(result.uid);
+
+              print(_user.local_uid);
+              // dynamic result = await _auth.signInAnon();
+              // print(result.uid);
 
               Navigator.push(
                   context,
@@ -287,17 +289,19 @@ class _SignUpFormState extends State<SignUpForm> {
         ),
       );
 
+  String? idval = '';
+
   Future<void> addUsers() {
-    return alerto_users
-        .add({
-          'Firstname': _user.firstName,
-          'Lastname': _user.lastName,
-          'Middle Name': _user.middleName,
-          'Address': _user.address,
-          'Username': _user.username,
-          'Password': _user.password,
-        })
-        .then((value) => print('User Added!'))
-        .catchError((onError) => print('Failed to add user!'));
+    return alerto_users.add({
+      'Firstname': _user.firstName,
+      'Lastname': _user.lastName,
+      'Middle Name': _user.middleName,
+      'Address': _user.address,
+      'Username': _user.username,
+      'Password': _user.password,
+    }).then((value) {
+      _user.local_uid = value.id;
+      print(value.id);
+    }).catchError((onError) => print('Failed to add user!'));
   }
 }

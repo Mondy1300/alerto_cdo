@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class FloodInfoScreen extends StatelessWidget {
-  const FloodInfoScreen({Key? key}) : super(key: key);
+class EarthquakeInfoScreen extends StatelessWidget {
+  const EarthquakeInfoScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,13 +11,13 @@ class FloodInfoScreen extends StatelessWidget {
         title: Text('FLOOD'),
         backgroundColor: Colors.blue[400],
       ),
-      body: FloodInfoBody(),
+      body: EarthquakeInfoBody(),
     );
   }
 }
 
-class FloodInfoBody extends StatelessWidget {
-  const FloodInfoBody({Key? key}) : super(key: key);
+class EarthquakeInfoBody extends StatelessWidget {
+  const EarthquakeInfoBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,29 +27,20 @@ class FloodInfoBody extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             image: DecorationImage(
-                image: AssetImage("assets/flood/BG.png"), fit: BoxFit.cover)),
+                image: AssetImage("assets/earthquake/bgtitle.png"),
+                fit: BoxFit.cover)),
         child: Stack(
           children: [
             PageView(
               controller: _pgcontroller,
               children: [
-                // Container(
-                //   child: Image(
-                //     image: AssetImage('/assets/flood/zigzag line.png'),
-                //   ),
-                // ),
                 Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 10, top: 160),
-                        child: SizedBox(
-                          child: Image(
-                            image: AssetImage('assets/flood/before.png'),
-                            height: 65,
-                          ),
-                        ),
+                        child: SizedBox(),
                       ),
                       Expanded(
                         child: before(),
@@ -62,12 +53,7 @@ class FloodInfoBody extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 10, top: 160),
-                      child: SizedBox(
-                        child: Image(
-                          image: AssetImage('assets/flood/during.png'),
-                          height: 50,
-                        ),
-                      ),
+                      child: SizedBox(),
                     ),
                     Expanded(child: during())
                   ],
@@ -77,12 +63,7 @@ class FloodInfoBody extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 20, top: 160),
-                      child: SizedBox(
-                        child: Image(
-                          image: AssetImage('assets/flood/after.png'),
-                          height: 65,
-                        ),
-                      ),
+                      child: SizedBox(),
                     ),
                     Expanded(child: after())
                   ],
@@ -117,8 +98,8 @@ class FloodInfoBody extends StatelessWidget {
             padding: const EdgeInsets.only(left: 0, top: 10),
             child: Container(
               child: Image(
-                image: AssetImage('assets/flood/Before1.png'),
-                // height: 125,
+                image: AssetImage('assets/earthquake/Before.png'),
+                // height: 210,
               ),
             ),
           ),
@@ -129,11 +110,11 @@ class FloodInfoBody extends StatelessWidget {
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 15, top: 20),
+            padding: const EdgeInsets.only(left: 0, top: 10),
             child: Container(
               child: Image(
-                image: AssetImage('assets/flood/During1.png'),
-                // height: 125,
+                image: AssetImage('assets/earthquake/during.png'),
+                // height: 210,
               ),
             ),
           ),
@@ -144,11 +125,11 @@ class FloodInfoBody extends StatelessWidget {
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 15, top: 10),
+            padding: const EdgeInsets.only(left: 0, top: 10),
             child: Container(
               child: Image(
-                image: AssetImage('assets/flood/After1.png'),
-                // height: 125,
+                image: AssetImage('assets/earthquake/after.png'),
+                // height: 210,
               ),
             ),
           ),

@@ -1,3 +1,5 @@
+import 'package:alerto_cdo_v1/screens/users/infographics/earthquake.dart';
+import 'package:alerto_cdo_v1/screens/users/infographics/fire.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/flood.dart';
 import 'package:alerto_cdo_v1/screens/users/report_emergency.dart';
 import 'package:flutter/cupertino.dart';
@@ -144,7 +146,12 @@ Widget fire(BuildContext context) => Container(
                   color: Colors.white,
                   fontSize: 16,
                 )),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new FireInfoScreen()));
+            },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
             )),
@@ -258,7 +265,12 @@ Widget earthquake(BuildContext context) => Container(
                   color: Colors.white,
                   fontSize: 16,
                 )),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new EarthquakeInfoScreen()));
+            },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
             )),

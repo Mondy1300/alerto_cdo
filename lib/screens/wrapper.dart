@@ -12,12 +12,13 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userInstance = Provider.of<Users?>(context);
-    // print(userInstance);
+    print(userInstance!.uid);
 
     if (userInstance == null) {
       // print(userInstance);
       return Login_Signup();
     } else {
+      print('wew');
       return HomeScreen();
     }
   }
