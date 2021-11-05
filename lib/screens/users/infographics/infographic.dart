@@ -1,6 +1,10 @@
+import 'package:alerto_cdo_v1/screens/users/infographics/drowning.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/earthquake.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/fire.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/flood.dart';
+import 'package:alerto_cdo_v1/screens/users/infographics/hurricane.dart';
+import 'package:alerto_cdo_v1/screens/users/infographics/landslide.dart';
+import 'package:alerto_cdo_v1/screens/users/infographics/tornado.dart';
 import 'package:alerto_cdo_v1/screens/users/report_emergency.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,22 +54,47 @@ class _InfographicState extends State<Infographic> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView(
-        children: [
-          Container(
-              margin: EdgeInsets.all(0),
-              color: Color(0xffBA0F30),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/buttons/MAIN BG.png"),
+              fit: BoxFit.cover)),
+      child: Stack(children: [
+        ListView(
+          children: [
+            Container(
+                margin: EdgeInsets.all(0),
+                color: Color(0xffBA0F30),
+                child: SizedBox(
+                  width: 400,
+                  height: 200,
+                )),
+            first_row(context),
+            second_row(context),
+            third_row(context),
+            fourth_row(context),
+            emergency(context),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              color: Colors.black,
               child: SizedBox(
+                height: 70,
                 width: 400,
-                height: 200,
-              )),
-          first_row(context),
-          second_row(context),
-          third_row(context),
-          fourth_row(context),
-          emergency(context),
-        ],
-      ),
+              ),
+            ),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            bottomButtons(context),
+          ],
+        ),
+      ]),
     );
   }
 }
@@ -112,176 +141,162 @@ Widget fourth_row(BuildContext context) => Container(
 
 Widget flood(BuildContext context) => Container(
         child: Padding(
-      padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+      padding: const EdgeInsets.fromLTRB(5, 10, 0, 5),
       child: SizedBox(
-        width: 130,
-        height: 80,
-        child: TextButton(
-            child: Text('Flood',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                )),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => new FloodInfoScreen()));
-            },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
-            )),
+        width: 180,
+        height: 110,
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new FloodInfoScreen()));
+          },
+          child: Image(
+            image: AssetImage("assets/buttons/flood.png"),
+          ),
+        ),
       ),
     ));
 
 Widget fire(BuildContext context) => Container(
         child: Padding(
-      padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+      padding: const EdgeInsets.fromLTRB(0, 10, 5, 5),
       child: SizedBox(
-        width: 130,
-        height: 80,
-        child: TextButton(
-            child: Text('Fire',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                )),
-            onPressed: () {
+          width: 180,
+          height: 110,
+          child: InkWell(
+            onTap: () {
               Navigator.push(
                   context,
                   new MaterialPageRoute(
                       builder: (context) => new FireInfoScreen()));
             },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
-            )),
-      ),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new FireInfoScreen()));
+              },
+              child: Image(
+                image: AssetImage("assets/buttons/fire.png"),
+              ),
+            ),
+          )),
     ));
 
 Widget tornado(BuildContext context) => Container(
-        child: Padding(
-      padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
-      child: SizedBox(
-        width: 130,
-        height: 80,
-        child: TextButton(
-            child: Text('Tornado',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                )),
-            onPressed: () {},
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
-            )),
-      ),
-    ));
+    child: Padding(
+        padding: const EdgeInsets.fromLTRB(5, 10, 0, 5),
+        child: SizedBox(
+          width: 180,
+          height: 110,
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => TornadoInfoScreen()));
+            },
+            child: Image(
+              image: AssetImage("assets/buttons/tornado.png"),
+            ),
+          ),
+        )));
 
 Widget hurricane(BuildContext context) => Container(
         child: Padding(
-      padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+      padding: const EdgeInsets.fromLTRB(0, 10, 5, 5),
       child: SizedBox(
-        width: 130,
-        height: 80,
-        child: TextButton(
-            child: Text('Hurricane',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                )),
-            onPressed: () {},
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
-            )),
-      ),
+          width: 180,
+          height: 110,
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => HurricaneInfoScreen()));
+            },
+            child: Image(
+              image: AssetImage("assets/buttons/hurricane.png"),
+            ),
+          )),
     ));
 
 Widget car_crash(BuildContext context) => Container(
         child: Padding(
-      padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+      padding: const EdgeInsets.fromLTRB(10, 10, 0, 5),
       child: SizedBox(
-        width: 130,
-        height: 80,
-        child: TextButton(
-            child: Text('Car Crash',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                )),
-            onPressed: () {},
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
-            )),
-      ),
+          width: 180,
+          height: 110,
+          child: Image(
+            image: AssetImage("assets/buttons/car crash.png"),
+          )),
     ));
 
 Widget landslide(BuildContext context) => Container(
         child: Padding(
-      padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+      padding: const EdgeInsets.fromLTRB(0, 10, 5, 5),
       child: SizedBox(
-        width: 130,
-        height: 80,
-        child: TextButton(
-            child: Text('Landslide',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                )),
-            onPressed: () {},
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
-            )),
-      ),
+          width: 180,
+          height: 110,
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => LandslideInfoScreen()));
+            },
+            child: Image(
+              image: AssetImage("assets/buttons/landslide.png"),
+            ),
+          )),
     ));
 
 Widget drowning(BuildContext context) => Container(
         child: Padding(
-      padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+      padding: const EdgeInsets.fromLTRB(10, 10, 0, 35),
       child: SizedBox(
-        width: 130,
-        height: 80,
-        child: TextButton(
-            child: Text('Drowning',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                )),
-            onPressed: () {},
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
-            )),
-      ),
+          width: 180,
+          height: 110,
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => DrowningInfoScreen()));
+            },
+            child: Image(
+              image: AssetImage("assets/buttons/drowning.png"),
+            ),
+          )),
     ));
 
 Widget earthquake(BuildContext context) => Container(
         child: Padding(
-      padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+      padding: const EdgeInsets.fromLTRB(0, 10, 5, 35),
       child: SizedBox(
-        width: 130,
-        height: 80,
-        child: TextButton(
-            child: Text('Earthquake',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                )),
-            onPressed: () {
+          width: 180,
+          height: 110,
+          child: InkWell(
+            onTap: () {
               Navigator.push(
                   context,
                   new MaterialPageRoute(
-                      builder: (context) => new EarthquakeInfoScreen()));
+                      builder: (context) => EarthquakeInfoScreen()));
             },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
-            )),
-      ),
+            child: Image(
+              image: AssetImage("assets/buttons/earthquake.png"),
+            ),
+          )),
     ));
 
 Widget emergency(context) => Padding(
-      padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
+      padding: const EdgeInsets.all(2),
       child: SizedBox(
-        width: 360,
-        height: 60,
+        width: 160,
+        height: 50,
         child: OutlinedButton.icon(
           label: Text(
             'EMERGENCY',
@@ -301,5 +316,41 @@ Widget emergency(context) => Padding(
             backgroundColor: MaterialStateProperty.all(Color(0xffFF0000)),
           ),
         ),
+      ),
+    );
+
+Widget call_now() => Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: SizedBox(
+        width: 160,
+        height: 50,
+        child: OutlinedButton.icon(
+          label: Text(
+            'CALL NOW?',
+            style: TextStyle(color: Colors.black),
+          ),
+          onPressed: () {},
+          icon: Icon(Icons.call),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Color(0xff828282)),
+          ),
+        ),
+      ),
+    );
+
+Widget bottomButtons(BuildContext context) => Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10, bottom: 7),
+            child: call_now(),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, bottom: 7),
+            child: emergency(context),
+          ),
+        ],
       ),
     );

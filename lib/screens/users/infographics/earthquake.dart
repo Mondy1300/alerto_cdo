@@ -8,7 +8,7 @@ class EarthquakeInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FLOOD'),
+        title: Text('EARTHQUAKE'),
         backgroundColor: Colors.blue[400],
       ),
       body: EarthquakeInfoBody(),
@@ -27,7 +27,7 @@ class EarthquakeInfoBody extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             image: DecorationImage(
-                image: AssetImage("assets/earthquake/bgtitle.png"),
+                image: AssetImage("assets/earthquake/bgtitle2.png"),
                 fit: BoxFit.cover)),
         child: Stack(
           children: [

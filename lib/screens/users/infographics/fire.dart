@@ -8,7 +8,7 @@ class FireInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FLOOD'),
+        title: Text('FIRE'),
         backgroundColor: Colors.blue[400],
       ),
       body: FireInfoBody(),
@@ -27,7 +27,7 @@ class FireInfoBody extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             image: DecorationImage(
-                image: AssetImage("assets/fire/BG.png"), fit: BoxFit.cover)),
+                image: AssetImage("assets/fire/BG12.png"), fit: BoxFit.cover)),
         child: Stack(
           children: [
             PageView(
@@ -39,11 +39,7 @@ class FireInfoBody extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 10, top: 150),
-                        child: SizedBox(
-                            child: Image(
-                          image: AssetImage('assets/flood/before.png'),
-                          height: 65,
-                        )),
+                        child: SizedBox(),
                       ),
                       Expanded(
                         child: before(),
@@ -51,55 +47,55 @@ class FireInfoBody extends StatelessWidget {
                     ],
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, top: 160),
-                      child: SizedBox(
-                        child: Image(
-                          image: AssetImage('assets/flood/during.png'),
-                          height: 50,
-                        ),
-                      ),
-                    ),
-                    Expanded(child: during())
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, top: 160),
-                      child: SizedBox(
-                        child: Image(
-                          image: AssetImage('assets/flood/after.png'),
-                          height: 65,
-                        ),
-                      ),
-                    ),
-                    // Expanded(child: after())
-                  ],
-                ),
+                // Column(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     Padding(
+                //       padding: const EdgeInsets.only(left: 10, top: 160),
+                //       child: SizedBox(
+                //         child: Image(
+                //           image: AssetImage('assets/flood/during.png'),
+                //           height: 50,
+                //         ),
+                //       ),
+                //     ),
+                //     Expanded(child: during())
+                //   ],
+                // ),
+                // Column(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     Padding(
+                //       padding: const EdgeInsets.only(left: 20, top: 160),
+                //       child: SizedBox(
+                //         child: Image(
+                //           image: AssetImage('assets/flood/after.png'),
+                //           height: 65,
+                //         ),
+                //       ),
+                //     ),
+                //     // Expanded(child: after())
+                //   ],
+                // ),
               ],
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                    child: Center(
-                  child: SmoothPageIndicator(
-                    controller: _pgcontroller,
-                    count: 3,
-                    effect: WormEffect(),
-                    onDotClicked: (index) => _pgcontroller.animateToPage(index,
-                        duration: Duration(milliseconds: 500),
-                        curve: Curves.bounceOut),
-                  ),
-                ))
-              ],
-            )
+            // Column(
+            //   mainAxisAlignment: MainAxisAlignment.end,
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: [
+            //     Container(
+            //         child: Center(
+            //       child: SmoothPageIndicator(
+            //         controller: _pgcontroller,
+            //         count: 3,
+            //         effect: WormEffect(),
+            //         onDotClicked: (index) => _pgcontroller.animateToPage(index,
+            //             duration: Duration(milliseconds: 500),
+            //             curve: Curves.bounceOut),
+            //       ),
+            //     ))
+            //   ],
+            // )
           ],
         ));
   }
@@ -116,16 +112,8 @@ class FireInfoBody extends StatelessWidget {
               ),
             ),
           ),
-         
-        ],
-      );
-
-      Widget during() => ListView(
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          
           Padding(
-            padding: const EdgeInsets.only(left: 0, top: 10),
+            padding: const EdgeInsets.only(left: 0, top: 50),
             child: Container(
               child: Image(
                 image: AssetImage('assets/fire/f2.png'),

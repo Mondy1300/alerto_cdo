@@ -115,23 +115,45 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: [
-          Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage("assets/bg.jpg"))),
-              margin: EdgeInsets.all(0),
-              // color: Color(0xff900d0d),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/buttons/MAIN BG.png"),
+              fit: BoxFit.cover)),
+      child: Stack(children: [
+        ListView(
+          children: [
+            Container(
+                margin: EdgeInsets.all(0),
+                color: Color(0xff900d0d),
+                child: SizedBox(
+                  width: 400,
+                  height: 200,
+                )),
+            first_row(context),
+            second_row(context),
+            third_row(context),
+            announcements(),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              color: Colors.black,
               child: SizedBox(
+                height: 70,
                 width: 400,
-                height: 200,
-              )),
-          first_row(context),
-          second_row(context),
-          call_now(),
-          emergency(context),
-        ],
-      ),
+              ),
+            ),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            bottomButtons(context),
+          ],
+        ),
+      ]),
     );
   }
 
@@ -142,41 +164,32 @@ class _HomeState extends State<Home> {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
-              child: SizedBox(
-                width: 160,
-                height: 80,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
-              child: SizedBox(
-                width: 160,
-                height: 80,
-                child: OutlinedButton.icon(
-                  label: Text(
-                    'Covid-19',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new InfographicScreen()));
+                },
+                child: SizedBox(
+                  child: Image(
+                    image: AssetImage("assets/buttons/infographics.png"),
                   ),
-                  onPressed: () async {
-                    // GoogleSignIn().signOut();
-                    await _auth.signOut;
-
-                    Navigator.pop(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => new LoginScreen()));
-                  },
-                  icon: Icon(
-                    Icons.menu_open_outlined,
-                    color: Colors.white,
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Color(0xffBA0F30)),
-                  ),
+                  width: 200,
+                  height: 120,
                 ),
               ),
-            )
+            ),
+            // Padding(
+            //   padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+            //   child: SizedBox(
+            //     width: 160,
+            //     height: 80,
+            //     child: Image(
+            //       image: AssetImage("assets/buttons/covid.png"),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       );
@@ -189,50 +202,35 @@ Widget second_row(context) => Container(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            child: SizedBox(
-              width: 160,
-              height: 80,
-              child: OutlinedButton.icon(
-                label: Text(
-                  'Profile',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-                onPressed: () {},
-                icon: Icon(
-                  Icons.account_box_sharp,
-                  color: Colors.white,
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
+            child: InkWell(
+              onTap: () {},
+              child: SizedBox(
+                width: 200,
+                height: 120,
+                child: Image(
+                  image: AssetImage("assets/buttons/profile.png"),
                 ),
               ),
             ),
           ),
+        ],
+      ),
+    );
+
+Widget third_row(context) => Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            child: SizedBox(
-              width: 160,
-              height: 80,
-              child: OutlinedButton.icon(
-                label: Text(
-                  'About us',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new AdminHomeScreen()));
-                },
-                icon: Icon(
-                  Icons.info,
-                  color: Colors.white,
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xffBA0F30)),
+            child: InkWell(
+              onTap: () {},
+              child: SizedBox(
+                width: 200,
+                height: 120,
+                child: Image(
+                  image: AssetImage("assets/buttons/about us.png"),
                 ),
               ),
             ),
@@ -241,11 +239,33 @@ Widget second_row(context) => Container(
       ),
     );
 
+Widget announcements() => Container(
+      width: 400,
+      height: 400,
+      child: TextField(),
+    );
+
+Widget bottomButtons(BuildContext context) => Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10, bottom: 7),
+            child: call_now(),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, bottom: 7),
+            child: emergency(context),
+          ),
+        ],
+      ),
+    );
 Widget call_now() => Padding(
       padding: const EdgeInsets.all(2.0),
       child: SizedBox(
-        width: 360,
-        height: 60,
+        width: 160,
+        height: 50,
         child: OutlinedButton.icon(
           label: Text(
             'CALL NOW?',
@@ -261,10 +281,10 @@ Widget call_now() => Padding(
     );
 
 Widget emergency(context) => Padding(
-      padding: const EdgeInsets.fromLTRB(2, 180, 2, 2),
+      padding: const EdgeInsets.all(2),
       child: SizedBox(
-        width: 360,
-        height: 60,
+        width: 160,
+        height: 50,
         child: OutlinedButton.icon(
           label: Text(
             'EMERGENCY',

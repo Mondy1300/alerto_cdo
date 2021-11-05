@@ -27,7 +27,8 @@ class FloodInfoBody extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             image: DecorationImage(
-                image: AssetImage("assets/flood/BG.png"), fit: BoxFit.cover)),
+                image: AssetImage("assets/flood/floodbg.png"),
+                fit: BoxFit.cover)),
         child: Stack(
           children: [
             PageView(

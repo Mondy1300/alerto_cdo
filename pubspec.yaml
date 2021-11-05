@@ -70,6 +70,11 @@ flutter:
     - assets/fire/
     - assets/earthquake/
     - assets/buttons/
+    - assets/landslide/
+    - assets/tornado/
+    - assets/drowning/
+    - assets/hurricane/
+    
     
 
 
