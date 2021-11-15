@@ -1,3 +1,4 @@
+import 'package:alerto_cdo_v1/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:alerto_cdo_v1/model/user.dart';
 // import 'package:flutter/cupertino.dart';
@@ -15,11 +16,52 @@ class AuthService {
     }
   }
 
-  @override
   Stream<Users?> get user {
     return _firebaseAuth
         .authStateChanges()
         .map((User? user) => _userFromFirebaseUser(user!));
+  }
+
+  //get uid
+  Future<String> getCurrentUID() async {
+    return (await _firebaseAuth.currentUser!).uid;
+  }
+
+  //get current user
+  Future getCurrentUser() async {
+    return await _firebaseAuth.currentUser!;
+  }
+
+  //register with email and password
+  Future registerWithEmailAndPassword(String email, String password) async {
+    try {
+      UserCredential result = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      User? user = result.user;
+
+      //create new docu
+      await DatabaseService(uid: user!.uid)
+          .updateUserData('name', 'middle', 'last', 'dob', 'address', '0');
+
+      return _userFromFirebaseUser(user);
+    } catch (error) {
+      print(error.toString());
+      return null;
+    }
+  }
+
+  //sign in with email and password
+  Future signInWithEmailAndPassword(String email, String password) async {
+    try {
+      UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      User? user = result.user;
+      return _userFromFirebaseUser(user!);
+    } catch (error) {
+      print(error.toString());
+      return null;
+    }
   }
 
   //sign in anonymous
@@ -45,9 +87,6 @@ class AuthService {
   }
 }
 
-
-
-
 // class AuthService {
 //   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 //   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -60,4 +99,3 @@ class AuthService {
 //     // }
 //   }
 // }
-

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:alerto_cdo_v1/screens/login.dart';
+import 'package:alerto_cdo_v1/screens/register.dart';
 import 'package:alerto_cdo_v1/screens/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,23 +50,25 @@ class _MyHomePageState extends State<MyHomePage> {
             image: AssetImage("assets/bg.jpg"),
             fit: BoxFit.cover,
           )),
-          child: Column(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 100),
-                child: Image(image: AssetImage('assets/logo.png')),
-              ),
-              // Obx(() {
-              //   if (controller.googleAccount.value == null)
-              //     return Login_Signup();
-              //   else
-              //     return
-              // }),
-              btnLogin(context),
-              btnRegister(context),
-              btnEmail(context)
-            ],
-          )),
+          child: ListView(children: [
+            Column(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 100),
+                  child: Image(image: AssetImage('assets/logo.png')),
+                ),
+                // Obx(() {
+                //   if (controller.googleAccount.value == null)
+                //     return Login_Signup();
+                //   else
+                //     return
+                // }),
+                btnLogin(context),
+                btnRegister(context),
+                btnEmail(context)
+              ],
+            ),
+          ])),
     );
   }
 }
@@ -77,10 +80,12 @@ Widget btnLogin(BuildContext context) => Container(
       height: 50,
       child: ElevatedButton(
         onPressed: () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => new LoginScreen()));
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => new RegisterScreen()));
         },
-        child: Text('LOG IN', style: TextStyle(fontSize: 20)),
+        child: Text('REGISTER', style: TextStyle(fontSize: 20)),
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),
@@ -94,12 +99,10 @@ Widget btnRegister(BuildContext context) => Container(
       height: 50,
       child: ElevatedButton(
         onPressed: () {
-          Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (context) => new SignUpFormScreen()));
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => new LoginScreen()));
         },
-        child: Text('SIGN UP', style: TextStyle(fontSize: 20)),
+        child: Text('SIGN IN', style: TextStyle(fontSize: 20)),
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
         ),

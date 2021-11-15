@@ -1,8 +1,24 @@
+import 'package:alerto_cdo_v1/model/report.dart';
 import 'package:alerto_cdo_v1/screens/admin/dispatch.dart';
+import 'package:alerto_cdo_v1/services/database.dart';
 import 'package:flutter/material.dart';
 
+import '../../loading.dart';
+
 class ViewReportScreen extends StatelessWidget {
-  const ViewReportScreen({Key? key}) : super(key: key);
+  final String? details;
+  final String? img;
+  final String? sender;
+  final String? type;
+  final String? contact;
+  const ViewReportScreen(
+      {Key? key,
+      required this.contact,
+      required this.details,
+      required this.img,
+      required this.sender,
+      required this.type})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,33 +46,62 @@ class ViewReportScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
       ),
-      body: ViewReportBody(),
+      body: ViewReportBody(
+        contact: contact,
+        details: details,
+        img: img,
+        sender: sender,
+        type: type,
+      ),
     );
   }
 }
 
 class ViewReportBody extends StatefulWidget {
-  const ViewReportBody({Key? key}) : super(key: key);
+  final String? details;
+  final String? img;
+  final String? sender;
+  final String? type;
+  final String? contact;
+  const ViewReportBody(
+      {Key? key,
+      required this.contact,
+      required this.details,
+      required this.img,
+      required this.sender,
+      required this.type})
+      : super(key: key);
 
   @override
-  _ViewReportBodyState createState() => _ViewReportBodyState();
+  _ViewReportBodyState createState() => _ViewReportBodyState(
+      details: details, img: img, sender: sender, type: type, contact: contact);
 }
 
 class _ViewReportBodyState extends State<ViewReportBody> {
+  final String? details;
+  final String? img;
+  final String? sender;
+  final String? type;
+  final String? contact;
+  _ViewReportBodyState(
+      {required this.contact,
+      required this.details,
+      required this.img,
+      required this.sender,
+      required this.type});
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
+      child: ListView(
         children: [
           Container(
               color: Color(0xffBA0F30),
               child: SizedBox(
                 width: 400,
                 height: 80,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 115, top: 28),
+                child: Center(
                   child: Text(
-                    'FIRE EMERGENCY',
+                    '$type EMERGENCY',
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,
@@ -65,10 +110,10 @@ class _ViewReportBodyState extends State<ViewReportBody> {
                 ),
               )),
           firstRow(),
-          secondRow(),
-          thirdRow(),
-          thirdRowv2(),
-          fourthRow(),
+          secondRow(details),
+          thirdRow(sender),
+          thirdRowv2(contact),
+          fourthRow(img),
           buttons(context),
         ],
       ),
@@ -92,6 +137,10 @@ Widget firstRow() => Row(
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 10, 10, 5),
           child: Container(
+            child: Image(
+              image: AssetImage("assets/map.png"),
+              fit: BoxFit.cover,
+            ),
             height: 200,
             width: 270,
             decoration: BoxDecoration(border: Border.all(color: Colors.black)),
@@ -100,7 +149,7 @@ Widget firstRow() => Row(
       ],
     );
 
-Widget secondRow() => Row(
+Widget secondRow(String? values) => Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
@@ -120,13 +169,13 @@ Widget secondRow() => Row(
             height: 100,
             width: 270,
             decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-            child: Text('Gwapo Raymond Dayadaya'),
+            child: Text(values!),
           ),
         )
       ],
     );
 
-Widget thirdRow() => Row(
+Widget thirdRow(String? name) => Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
@@ -142,7 +191,7 @@ Widget thirdRow() => Row(
         Padding(
           padding: const EdgeInsets.fromLTRB(30, 15, 10, 5),
           child: Text(
-            'John Doe',
+            name!,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -152,13 +201,13 @@ Widget thirdRow() => Row(
       ],
     );
 
-Widget thirdRowv2() => Row(
+Widget thirdRowv2(String? contact_num) => Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(105, 5, 10, 5),
           child: Text(
-            '0935 1234 567',
+            contact_num!,
             style: TextStyle(
               fontSize: 18,
               decoration: TextDecoration.underline,
@@ -170,7 +219,7 @@ Widget thirdRowv2() => Row(
       ],
     );
 
-Widget fourthRow() => Row(
+Widget fourthRow(String? imgUrl) => Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
@@ -186,10 +235,14 @@ Widget fourthRow() => Row(
         Padding(
           padding: const EdgeInsets.fromLTRB(35, 10, 10, 5),
           child: Container(
-            height: 100,
-            width: 270,
-            decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-          ),
+              height: 300,
+              width: 270,
+              decoration:
+                  BoxDecoration(border: Border.all(color: Colors.black)),
+              child: Image.network(
+                imgUrl!,
+                fit: BoxFit.fill,
+              )),
         )
       ],
     );

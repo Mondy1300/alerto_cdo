@@ -2,9 +2,11 @@ import 'package:alerto_cdo_v1/google_login_controller.dart';
 import 'package:alerto_cdo_v1/loading.dart';
 import 'package:alerto_cdo_v1/my_icons_icons.dart';
 import 'package:alerto_cdo_v1/screens/admin/admin_home.dart';
+import 'package:alerto_cdo_v1/screens/announce_list.dart';
 import 'package:alerto_cdo_v1/screens/users/accountinfo.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/infographic.dart';
-import 'package:alerto_cdo_v1/screens/login.dart';
+import 'package:alerto_cdo_v1/screens/register.dart';
+import 'package:alerto_cdo_v1/screens/users/my_reports.dart';
 import 'package:alerto_cdo_v1/screens/users/report_emergency.dart';
 import 'package:alerto_cdo_v1/screens/signup.dart';
 import 'package:alerto_cdo_v1/services/auth_service.dart';
@@ -12,11 +14,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatelessWidget {
   final controller = Get.put(LoginController());
 
-  // final auth = AuthService();
+  final _auth = AuthService();
   // var _googleSignIn = GoogleSignIn();
   var googleAccount = Rx<GoogleSignInAccount?>(null);
 
@@ -38,7 +41,12 @@ class HomeScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 70),
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new AdminHomeScreen()));
+                  },
                   child: Image.asset(
                     'assets/logo3.png',
                     fit: BoxFit.contain,
@@ -92,8 +100,9 @@ class HomeScreen extends StatelessWidget {
             ),
             ListTile(
                 title: Text('Logout'),
-                onTap: () {
+                onTap: () async {
                   // print(controller.getName());
+                  await _auth.signOut();
                 })
           ],
         ),
@@ -124,15 +133,68 @@ class _HomeState extends State<Home> {
           children: [
             Container(
                 margin: EdgeInsets.all(0),
-                color: Color(0xff900d0d),
+                color: Color(0xffBA0F30),
                 child: SizedBox(
                   width: 400,
                   height: 200,
+                  child: CarouselSlider(
+                    items: [
+                      Image(
+                          image: AssetImage("assets/sliders/1.png"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/2.jpg"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/3.jpg"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/4.png"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/5.jpg"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/6.jpg"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/7.png"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/8.jpg"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/9.jpg"),
+                          fit: BoxFit.cover),
+                    ],
+                    options: CarouselOptions(
+                      height: 190,
+                      autoPlay: true,
+                      enableInfiniteScroll: true,
+                      autoPlayAnimationDuration: Duration(milliseconds: 1500),
+                      viewportFraction: 0.8,
+                      aspectRatio: 16 / 9,
+                      enlargeCenterPage: true,
+                    ),
+                  ),
                 )),
             first_row(context),
             second_row(context),
             third_row(context),
+            Padding(
+              padding: EdgeInsets.only(top: 30, left: 70, bottom: 10),
+              child: Text(
+                "ANNOUNCEMENTS",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: Colors.white),
+              ),
+            ),
             announcements(),
+            SizedBox(
+              height: 100,
+            ),
           ],
         ),
         Column(
@@ -225,7 +287,12 @@ Widget third_row(context) => Container(
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => MyReportsScreen()));
+              },
               child: SizedBox(
                 width: 200,
                 height: 120,
@@ -240,9 +307,13 @@ Widget third_row(context) => Container(
     );
 
 Widget announcements() => Container(
+      color: const Color(0xFF0000).withOpacity(0.3),
       width: 400,
       height: 400,
-      child: TextField(),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Announcelist(),
+      ),
     );
 
 Widget bottomButtons(BuildContext context) => Container(

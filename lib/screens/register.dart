@@ -4,28 +4,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign In'),
+        title: Text('Register'),
       ),
-      body: LoginForm(),
+      body: RegisterBody(),
     );
   }
 }
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+class RegisterBody extends StatefulWidget {
+  const RegisterBody({Key? key}) : super(key: key);
 
   @override
   _LoginFormState createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _LoginFormState extends State<RegisterBody> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
@@ -101,13 +101,6 @@ class _LoginFormState extends State<LoginForm> {
                             fillColor: Color(0xffff868c)),
                       ),
                     ),
-                    Text(
-                      error,
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold),
-                    ),
                     Container(
                         margin: EdgeInsets.fromLTRB(5, 20, 0, 20),
                         child: SizedBox(
@@ -116,13 +109,12 @@ class _LoginFormState extends State<LoginForm> {
                           child: ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                print('valid');
                                 dynamic result =
-                                    await _auth.signInWithEmailAndPassword(
+                                    await _auth.registerWithEmailAndPassword(
                                         email, password);
                                 if (result == null) {
-                                  setState(
-                                      () => error = 'Invalid Credentials!');
+                                  setState(() =>
+                                      error = 'Please supply valid email');
                                 }
                               }
                               //
@@ -134,6 +126,13 @@ class _LoginFormState extends State<LoginForm> {
                             child: Text('REGISTER'),
                           ),
                         )),
+                    Text(
+                      error,
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold),
+                    )
                   ],
                 ),
               ),

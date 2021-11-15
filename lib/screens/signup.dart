@@ -2,12 +2,14 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:alerto_cdo_v1/model/user.dart';
-import 'package:alerto_cdo_v1/screens/login.dart';
+import 'package:alerto_cdo_v1/screens/register.dart';
 import 'package:alerto_cdo_v1/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+
+import 'package:provider/provider.dart';
 
 class SignUpFormScreen extends StatelessWidget {
   const SignUpFormScreen({Key? key}) : super(key: key);
@@ -261,14 +263,14 @@ class _SignUpFormState extends State<SignUpForm> {
               inspect(_user);
               addUsers();
 
-              print(_user.local_uid);
-              // dynamic result = await _auth.signInAnon();
-              // print(result.uid);
+              // // dynamic result = await _auth.signInAnon();
+              // // print(result.uid);
 
+              // final uid = await Provider.of(context).auth.getCurrentUID()
               Navigator.push(
                   context,
                   new MaterialPageRoute(
-                      builder: (context) => new LoginScreen()));
+                      builder: (context) => new RegisterScreen()));
             } else {
               _usernameCtrl.clear();
               _fnameCtrl.clear();
@@ -289,19 +291,17 @@ class _SignUpFormState extends State<SignUpForm> {
         ),
       );
 
-  String? idval = '';
-
   Future<void> addUsers() {
-    return alerto_users.add({
-      'Firstname': _user.firstName,
-      'Lastname': _user.lastName,
-      'Middle Name': _user.middleName,
-      'Address': _user.address,
-      'Username': _user.username,
-      'Password': _user.password,
-    }).then((value) {
-      _user.local_uid = value.id;
-      print(value.id);
-    }).catchError((onError) => print('Failed to add user!'));
+    return alerto_users
+        .add({
+          'Firstname': _user.firstName,
+          'Lastname': _user.lastName,
+          'Middle Name': _user.middleName,
+          'Address': _user.address,
+          'Username': _user.username,
+          'Password': _user.password,
+        })
+        .then((value) {})
+        .catchError((onError) => print('Failed to add user!'));
   }
 }

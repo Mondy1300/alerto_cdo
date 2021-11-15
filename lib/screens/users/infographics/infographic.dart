@@ -6,6 +6,8 @@ import 'package:alerto_cdo_v1/screens/users/infographics/hurricane.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/landslide.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/tornado.dart';
 import 'package:alerto_cdo_v1/screens/users/report_emergency.dart';
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -65,6 +67,46 @@ class _InfographicState extends State<Infographic> {
                 margin: EdgeInsets.all(0),
                 color: Color(0xffBA0F30),
                 child: SizedBox(
+                  child: CarouselSlider(
+                    items: [
+                      Image(
+                          image: AssetImage("assets/sliders/1.png"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/2.jpg"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/3.jpg"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/4.png"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/5.jpg"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/6.jpg"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/7.png"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/8.jpg"),
+                          fit: BoxFit.cover),
+                      Image(
+                          image: AssetImage("assets/sliders/9.jpg"),
+                          fit: BoxFit.cover),
+                    ],
+                    options: CarouselOptions(
+                      height: 190,
+                      autoPlay: true,
+                      enableInfiniteScroll: true,
+                      autoPlayAnimationDuration: Duration(milliseconds: 1000),
+                      viewportFraction: 0.8,
+                      aspectRatio: 16 / 9,
+                      enlargeCenterPage: true,
+                    ),
+                  ),
                   width: 400,
                   height: 200,
                 )),

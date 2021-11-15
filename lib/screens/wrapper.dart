@@ -1,5 +1,6 @@
 import 'package:alerto_cdo_v1/model/user.dart';
 import 'package:alerto_cdo_v1/screens/authenticate/authenticate.dart';
+import 'package:alerto_cdo_v1/screens/register.dart';
 import 'package:alerto_cdo_v1/screens/users/home.dart';
 import 'package:alerto_cdo_v1/screens/login_signup.dart';
 import 'package:alerto_cdo_v1/services/auth_service.dart';
@@ -12,8 +13,9 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userInstance = Provider.of<Users?>(context);
-    print(userInstance!.uid);
+    // print(userInstance!.uid);
 
+    // return Authenticate();
     if (userInstance == null) {
       // print(userInstance);
       return Login_Signup();
