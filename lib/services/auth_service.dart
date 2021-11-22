@@ -42,7 +42,7 @@ class AuthService {
 
       //create new docu
       await DatabaseService(uid: user!.uid)
-          .updateUserData('name', 'middle', 'last', 'dob', 'address', '0');
+          .updateUserData('', '', '', '', '', '');
 
       return _userFromFirebaseUser(user);
     } catch (error) {

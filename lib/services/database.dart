@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:alerto_cdo_v1/model/announcement.dart';
 import 'package:alerto_cdo_v1/model/report.dart';
+import 'package:alerto_cdo_v1/model/units.dart';
 import 'package:alerto_cdo_v1/model/user.dart';
+import 'package:alerto_cdo_v1/screens/admin/units.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -21,6 +23,9 @@ class DatabaseService {
 
   final CollectionReference announceCollection =
       FirebaseFirestore.instance.collection('announcements');
+
+  final CollectionReference unitsCollection =
+      FirebaseFirestore.instance.collection('units');
 
   // final QuerySnapshot querySnap =
   //     FirebaseFirestore.instance.collection('reports').getDocuments();
@@ -44,13 +49,16 @@ class DatabaseService {
 
   //create report
   Future<void> createReport(
-    String? description,
-    String? userid,
-    List? name,
-    String? contactnum,
-    String? imageUrl,
-    String? type,
-  ) async {
+      String? description,
+      String? userid,
+      List? name,
+      String? contactnum,
+      String? imageUrl,
+      String? type,
+      double? latitude,
+      double? longitude,
+      String? status,
+      String? date_time) async {
     return await reportCollection.doc().set({
       'description': description,
       'userid': userid,
@@ -58,6 +66,10 @@ class DatabaseService {
       'contact number': contactnum,
       'image url': imageUrl,
       'emergency type': type,
+      'latitude': latitude,
+      'longitude': longitude,
+      'status': status,
+      'date_time': date_time
     });
   }
 
@@ -73,6 +85,16 @@ class DatabaseService {
     });
   }
 
+  Future<void> dispatchUnits(
+    int? available,
+    int? dispatched,
+  ) async {
+    return await unitsCollection.doc('110011').set({
+      'available': available,
+      'dispatched': dispatched,
+    });
+  }
+
   // Users _userDataFromSnapshot(DocumentSnapshot snapshot) {
   //   return Users(
   //     uid: uid,
@@ -84,6 +106,17 @@ class DatabaseService {
   //     password: snapshot['Password'],
   //   );
   // }
+
+  UnitsMod _unitsFromSnapshot(DocumentSnapshot snapshot) {
+    return UnitsMod(
+      dispatched: snapshot.data().toString().contains('dispatched')
+          ? snapshot.get('dispatched')
+          : '',
+      available: snapshot.data().toString().contains('available')
+          ? snapshot.get('available')
+          : '',
+    );
+  }
 
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return UserData(
@@ -130,6 +163,15 @@ class DatabaseService {
       imageUrl: snapshot.data().toString().contains('image url')
           ? snapshot.get('image url')
           : '',
+      latitude: snapshot.data().toString().contains('latitude')
+          ? snapshot.get('latitude')
+          : '',
+      longitude: snapshot.data().toString().contains('longitude')
+          ? snapshot.get('longitude')
+          : '',
+      date_time: snapshot.data().toString().contains('date_time')
+          ? snapshot.get('date_time')
+          : '',
     );
   }
 
@@ -138,11 +180,14 @@ class DatabaseService {
   List<Report> _reportListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return Report(
-          name: doc['name'] ?? '',
-          userid: doc['userid'] ?? '',
-          type: doc['type'] ?? '',
-          description: doc['description'] ?? '',
-          contactnum: doc['contact_number'] ?? '');
+        name: doc['name'] ?? '',
+        userid: doc['userid'] ?? '',
+        type: doc['type'] ?? '',
+        description: doc['description'] ?? '',
+        contactnum: doc['contact_number'] ?? '',
+        latitude: doc['latitude'] ?? '',
+        longitude: doc['longitude'] ?? '',
+      );
     }).toList();
   }
 

@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // }),
                 btnLogin(context),
                 btnRegister(context),
-                btnEmail(context)
+                // btnEmail(context)
               ],
             ),
           ])),
@@ -109,23 +109,23 @@ Widget btnRegister(BuildContext context) => Container(
       ),
     ));
 
-Widget btnEmail(BuildContext context) => Container(
-    margin: EdgeInsets.only(top: 20),
-    child: FloatingActionButton.extended(
-      onPressed: () {
-        GoogleSignIn().signIn();
+// Widget btnEmail(BuildContext context) => Container(
+//     margin: EdgeInsets.only(top: 20),
+//     child: FloatingActionButton.extended(
+//       onPressed: () {
+//         GoogleSignIn().signIn();
 
-        Navigator.push(context,
-            new MaterialPageRoute(builder: (context) => new HomeScreen()));
-      },
-      icon: Image.asset(
-        'assets/google_logo.png',
-        height: 32,
-        width: 32,
-      ),
-      label: Text(
-        'Sign in with Google',
-        style: TextStyle(color: Colors.black),
-      ),
-      backgroundColor: Colors.white,
-    ));
+//         Navigator.push(context,
+//             new MaterialPageRoute(builder: (context) => new HomeScreen()));
+//       },
+//       icon: Image.asset(
+//         'assets/google_logo.png',
+//         height: 32,
+//         width: 32,
+//       ),
+//       label: Text(
+//         'Sign in with Google',
+//         style: TextStyle(color: Colors.black),
+//       ),
+//       backgroundColor: Colors.white,
+//     ));

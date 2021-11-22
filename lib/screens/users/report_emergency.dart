@@ -1,12 +1,17 @@
 import 'dart:io';
 
+import 'package:alerto_cdo_v1/blocs/application_bloc.dart';
 import 'package:alerto_cdo_v1/loading.dart';
 import 'package:alerto_cdo_v1/model/user.dart';
+import 'package:alerto_cdo_v1/screens/mapscreen.dart';
 import 'package:alerto_cdo_v1/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class ReportEmergency extends StatelessWidget {
   const ReportEmergency({Key? key}) : super(key: key);
@@ -37,7 +42,8 @@ class ReportEmergency extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
       ),
-      body: ReportScreen(),
+      body: ChangeNotifierProvider(
+          create: (context) => ApplicationBloc(), child: ReportScreen()),
     );
   }
 }
@@ -64,6 +70,7 @@ class _ReportScreenState extends State<ReportScreen> {
   File? _image;
   String? imageUrl;
   String emer_type = 'FIRE';
+  List<Marker> allMarkers = [];
 
   Future getImage(ImageSource source) async {
     final image =
@@ -78,6 +85,9 @@ class _ReportScreenState extends State<ReportScreen> {
   Widget build(BuildContext context) {
     FirebaseAuth auth = FirebaseAuth.instance;
     userid = auth.currentUser!.uid;
+
+    double? currentLat;
+    double? currentLong;
 
     return Container(
       child: StreamBuilder<UserData>(
@@ -127,18 +137,69 @@ class _ReportScreenState extends State<ReportScreen> {
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                      child: Container(
-                        child: Image(
-                          image: AssetImage("assets/map.png"),
-                          fit: BoxFit.cover,
-                        ),
-                        height: 200,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black)),
-                      ),
-                    ),
+                    Builder(builder: (BuildContext newContext) {
+                      final applicationBloc =
+                          Provider.of<ApplicationBloc>(newContext);
+                      currentLat = applicationBloc.currenLocation!.latitude;
+                      currentLong = applicationBloc.currenLocation!.longitude;
+
+                      allMarkers.add(Marker(
+                          markerId: MarkerId('myMarker'),
+                          draggable: true,
+                          onTap: () {
+                            print('Marker Tapped');
+                          },
+                          position: LatLng(currentLat!, currentLong!)));
+
+                      return (applicationBloc == null)
+                          ? Container(child: CircularProgressIndicator())
+                          : (applicationBloc.currenLocation == null)
+                              ? Loading()
+                              : Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                                  child: Container(
+                                    child: Stack(children: [
+                                      GoogleMap(
+                                          markers: Set.from(allMarkers),
+                                          mapType: MapType.normal,
+                                          myLocationButtonEnabled: true,
+                                          initialCameraPosition: CameraPosition(
+                                              tilt: 45,
+                                              zoom: 15,
+                                              target: LatLng(
+                                                  currentLat!, currentLong!))),
+                                      Align(
+                                          alignment: Alignment.topRight,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    new MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            MapScreen(
+                                                                latitude:
+                                                                    currentLat,
+                                                                longitude:
+                                                                    currentLong)));
+                                              },
+                                              child: Icon(
+                                                Icons.aspect_ratio,
+                                                size: 30,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                          )),
+                                    ]),
+                                    height: 300,
+                                    decoration: BoxDecoration(
+                                        border:
+                                            Border.all(color: Colors.black)),
+                                  ),
+                                );
+                    }),
                     Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
@@ -233,15 +294,22 @@ class _ReportScreenState extends State<ReportScreen> {
                                 await ref.putFile(_image!);
 
                                 imageUrl = await ref.getDownloadURL();
+                                final DateTime now = DateTime.now();
+                                final DateFormat formatter =
+                                    DateFormat("yyyy-MM-dd hh:mm");
+                                final String formatted = formatter.format(now);
 
                                 DatabaseService().createReport(
-                                  desController.text,
-                                  userid,
-                                  name,
-                                  contactnum,
-                                  imageUrl,
-                                  emer_type,
-                                );
+                                    desController.text,
+                                    userid,
+                                    name,
+                                    contactnum,
+                                    imageUrl,
+                                    emer_type,
+                                    currentLat,
+                                    currentLong,
+                                    formatted.toString(),
+                                    '');
                                 // print(txtvalue);
 
                                 showDialog(

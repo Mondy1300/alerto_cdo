@@ -131,7 +131,7 @@ class _LoginFormState extends State<LoginForm> {
                               //     new MaterialPageRoute(
                               //         builder: (context) => new HomeScreen()));
                             },
-                            child: Text('REGISTER'),
+                            child: Text('SIGN IN'),
                           ),
                         )),
                   ],

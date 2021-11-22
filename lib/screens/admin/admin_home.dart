@@ -1,5 +1,6 @@
 import 'package:alerto_cdo_v1/model/report.dart';
 import 'package:alerto_cdo_v1/screens/admin/admin_viewreport.dart';
+import 'package:alerto_cdo_v1/screens/admin/units.dart';
 import 'package:alerto_cdo_v1/screens/admin/update_announcement.dart';
 import 'package:alerto_cdo_v1/screens/admin/report_list.dart';
 import 'package:alerto_cdo_v1/services/database.dart';
@@ -59,9 +60,14 @@ class _AdminBodyState extends State<AdminBody> {
       child: ListView(
         // mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Container(
+              color: Color(0xffBA0F30),
+              width: 400,
+              height: 150,
+              child: Units()),
           Padding(
-            padding: const EdgeInsets.only(
-                left: 20, bottom: 20, top: 150, right: 20),
+            padding:
+                const EdgeInsets.only(left: 20, bottom: 20, top: 80, right: 20),
             child: viewReport(context),
           ),
           Padding(

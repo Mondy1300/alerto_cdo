@@ -61,8 +61,7 @@ class _ReportListState extends State<ReportList> {
           itemBuilder: (context, index) {
             String? type;
             DocumentSnapshot report = snapshot.data!.docs[index];
-            type = report['emergency type:'].toString();
-
+            type = report['emergency type'].toString();
             return Padding(
                 padding: EdgeInsets.only(top: 8),
                 child: Card(
@@ -78,18 +77,30 @@ class _ReportListState extends State<ReportList> {
                       //   color: Colors.red,
                       // ),
                       title: Text(type),
-                      subtitle: Text(report['description']),
-                      trailing: Text(report['name'].toString()),
+                      subtitle: Text(report['date_time']),
+                      trailing: (report['status'] == 'DISPATCHED')
+                          ? Icon(
+                              Icons.verified_rounded,
+                              color: Colors.green,
+                              size: 30,
+                            )
+                          : null,
                       onTap: () {
+                        print(report['longitude']);
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
                                 builder: (context) => new ViewReportScreen(
+                                      date_time: report['date_time'].toString(),
+                                      rep_status: report['status'],
+                                      docid: report.id,
                                       details: report['description'],
-                                      type: report['emergency type:'],
+                                      type: report['emergency type'],
                                       sender: report['name'].toString(),
                                       img: report['image url'],
                                       contact: report['contact number'],
+                                      latitude: report['latitude'],
+                                      longitude: report['longitude'],
                                     )));
                       }),
                 ));

@@ -1,7 +1,9 @@
+import 'package:alerto_cdo_v1/blocs/application_bloc.dart';
 import 'package:alerto_cdo_v1/google_login_controller.dart';
 import 'package:alerto_cdo_v1/loading.dart';
 import 'package:alerto_cdo_v1/my_icons_icons.dart';
 import 'package:alerto_cdo_v1/screens/admin/admin_home.dart';
+import 'package:alerto_cdo_v1/screens/admin/units.dart';
 import 'package:alerto_cdo_v1/screens/announce_list.dart';
 import 'package:alerto_cdo_v1/screens/users/accountinfo.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/infographic.dart';
@@ -12,9 +14,12 @@ import 'package:alerto_cdo_v1/screens/signup.dart';
 import 'package:alerto_cdo_v1/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
   final controller = Get.put(LoginController());
@@ -178,9 +183,8 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 )),
-            first_row(context),
-            second_row(context),
-            third_row(context),
+            info(context),
+            profile(context),
             Padding(
               padding: EdgeInsets.only(top: 30, left: 70, bottom: 10),
               child: Text(
@@ -219,13 +223,13 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget first_row(BuildContext context) => Container(
+  Widget info(BuildContext context) => Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+              padding: const EdgeInsets.fromLTRB(5, 35, 5, 0),
               child: InkWell(
                 onTap: () {
                   Navigator.push(
@@ -237,8 +241,26 @@ class _HomeState extends State<Home> {
                   child: Image(
                     image: AssetImage("assets/buttons/infographics.png"),
                   ),
-                  width: 200,
-                  height: 120,
+                  width: 180,
+                  height: 100,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(5, 35, 5, 0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => MyReportsScreen()));
+                },
+                child: SizedBox(
+                  width: 180,
+                  height: 100,
+                  child: Image(
+                    image: AssetImage("assets/buttons/userviewreports.png"),
+                  ),
                 ),
               ),
             ),
@@ -257,45 +279,31 @@ class _HomeState extends State<Home> {
       );
 }
 
-Widget second_row(context) => Container(
+Widget profile(context) => Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+            padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
             child: InkWell(
               onTap: () {},
               child: SizedBox(
-                width: 200,
-                height: 120,
+                width: 180,
+                height: 100,
                 child: Image(
                   image: AssetImage("assets/buttons/profile.png"),
                 ),
               ),
             ),
           ),
-        ],
-      ),
-    );
-
-Widget third_row(context) => Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+            padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
             child: InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => MyReportsScreen()));
-              },
+              onTap: () {},
               child: SizedBox(
-                width: 200,
-                height: 120,
+                width: 180,
+                height: 100,
                 child: Image(
                   image: AssetImage("assets/buttons/about us.png"),
                 ),
@@ -332,24 +340,36 @@ Widget bottomButtons(BuildContext context) => Container(
         ],
       ),
     );
-Widget call_now() => Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: SizedBox(
-        width: 160,
-        height: 50,
-        child: OutlinedButton.icon(
-          label: Text(
-            'CALL NOW?',
-            style: TextStyle(color: Colors.black),
-          ),
-          onPressed: () {},
-          icon: Icon(Icons.call),
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Color(0xff828282)),
-          ),
+
+Widget call_now() {
+  final numbah = '09755538637';
+  return Padding(
+    padding: const EdgeInsets.all(2.0),
+    child: SizedBox(
+      width: 160,
+      height: 50,
+      child: OutlinedButton.icon(
+        label: Text(
+          'CALL NOW?',
+          style: TextStyle(color: Colors.black),
+        ),
+        onPressed: () async {
+          // launch('tel:09551161502');
+          _callNumber();
+        },
+        icon: Icon(Icons.call),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Color(0xff828282)),
         ),
       ),
-    );
+    ),
+  );
+}
+
+_callNumber() async {
+  const number = '09551161502';
+  bool? res = await FlutterPhoneDirectCaller.callNumber(number);
+}
 
 Widget emergency(context) => Padding(
       padding: const EdgeInsets.all(2),

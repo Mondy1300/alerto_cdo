@@ -1,3 +1,4 @@
+import 'package:alerto_cdo_v1/screens/announce_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -30,11 +31,22 @@ Widget _buildAnnounce(
         itemCount: snapshot.data!.docs.length,
         itemBuilder: (context, index) {
           DocumentSnapshot announce = snapshot.data!.docs[index];
+          String? docid = announce.id;
           return Padding(
             padding: EdgeInsets.only(top: 8),
             child: Card(
               margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
               child: ListTile(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => AnnounceDetails(
+                                details: announce['details'],
+                                image: announce['imgUrl'],
+                                docID: docid,
+                              )));
+                },
                 leading: CircleAvatar(
                   backgroundImage: NetworkImage(announce['imgUrl']),
                   radius: 25,

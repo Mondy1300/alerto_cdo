@@ -1,3 +1,4 @@
+import 'package:alerto_cdo_v1/screens/users/report_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,21 +65,23 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
           itemBuilder: (context, index) {
             String? type;
             DocumentSnapshot report = snapshot.data!.docs[index];
-            type = report['emergency type:'].toString();
+            type = report['emergency type'].toString();
             return Padding(
               padding: EdgeInsets.only(top: 8),
               child: Card(
                 margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
                 child: ListTile(
+                  trailing: (report['status'] == 'DISPATCHED')
+                      ? Icon(
+                          Icons.verified_rounded,
+                          color: Colors.green,
+                          size: 30,
+                        )
+                      : null,
                   leading: CircleAvatar(
                     backgroundImage: NetworkImage(report['image url']),
                     radius: 25,
                   ),
-                  // leading: Icon(
-                  //   Icons.report,
-                  //   size: 50,
-                  //   color: Colors.red,
-                  // ),
                   title: Padding(
                     padding: const EdgeInsets.only(top: 8, left: 8),
                     child: Text(type),
@@ -87,6 +90,20 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(report['description']),
                   ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => MyReportsDetails(
+                                rep_status: report['status'],
+                                docid: report.id,
+                                latitude: report['latitude'],
+                                longitude: report['longitude'],
+                                contact: report['contact number'],
+                                details: report['description'],
+                                img: report['image url'],
+                                type: report['emergency type'])));
+                  },
                 ),
               ),
             );
