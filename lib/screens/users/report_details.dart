@@ -16,6 +16,7 @@ class MyReportsDetails extends StatelessWidget {
   final double? latitude;
   final double? longitude;
   final String? docid;
+  final String? date;
   const MyReportsDetails(
       {Key? key,
       required this.docid,
@@ -25,7 +26,8 @@ class MyReportsDetails extends StatelessWidget {
       required this.details,
       required this.img,
       required this.type,
-      required this.rep_status})
+      required this.rep_status,
+      required this.date})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,7 @@ class MyReportsDetails extends StatelessWidget {
                     ),
                   )),
               status(),
+              dateTime(),
               firstRow(),
               secondRow(),
               fourthRow(),
@@ -142,6 +145,30 @@ class MyReportsDetails extends StatelessWidget {
         ],
       );
 
+  Widget dateTime() => Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 20, top: 30),
+            child: Container(
+              child: Text('Date:',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(50, 30, 10, 5),
+            child: Text(date!,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                )),
+          )
+        ],
+      );
+
   Widget status() => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -161,12 +188,17 @@ class MyReportsDetails extends StatelessWidget {
                   style: (rep_status == 'DISPATCHED')
                       ? TextStyle(
                           fontSize: 22,
-                          color: Colors.green,
+                          color: Colors.yellow,
                           fontWeight: FontWeight.bold)
-                      : TextStyle(
-                          fontSize: 22,
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold))),
+                      : (rep_status == 'RESOLVED')
+                          ? TextStyle(
+                              fontSize: 22,
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold)
+                          : TextStyle(
+                              fontSize: 22,
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold))),
         ],
       );
 

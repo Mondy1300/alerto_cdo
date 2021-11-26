@@ -3,7 +3,9 @@ import 'package:alerto_cdo_v1/model/report.dart';
 import 'package:alerto_cdo_v1/screens/admin/dispatch.dart';
 import 'package:alerto_cdo_v1/screens/mapscreen.dart';
 import 'package:alerto_cdo_v1/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -129,7 +131,7 @@ class _ViewReportBodyState extends State<ViewReportBody> {
   final double? latitude;
   final double? longitude;
   final String? docid;
-  final String? rep_status;
+  String? rep_status;
   final String? date_time;
   _ViewReportBodyState(
       {required this.latitude,
@@ -144,6 +146,9 @@ class _ViewReportBodyState extends State<ViewReportBody> {
       required this.date_time});
 
   List<Marker> allMarkers = [];
+  int? avail = 15;
+  int? dispatch = 0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -165,6 +170,7 @@ class _ViewReportBodyState extends State<ViewReportBody> {
                 ),
               )),
           status(),
+          dateTime(),
           firstRow(),
           secondRow(details),
           thirdRow(sender),
@@ -176,13 +182,13 @@ class _ViewReportBodyState extends State<ViewReportBody> {
     );
   }
 
-  Widget status() => Row(
+  Widget dateTime() => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 20, top: 30),
             child: Container(
-              child: Text('Status:',
+              child: Text('Date:',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -190,19 +196,102 @@ class _ViewReportBodyState extends State<ViewReportBody> {
             ),
           ),
           Padding(
-              padding: const EdgeInsets.fromLTRB(35, 30, 10, 5),
-              child: Text(rep_status!,
-                  style: (rep_status == 'DISPATCHED')
-                      ? TextStyle(
-                          fontSize: 22,
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(
-                          fontSize: 22,
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold))),
+            padding: const EdgeInsets.fromLTRB(50, 30, 10, 5),
+            child: Text(date_time!,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                )),
+          )
         ],
       );
+
+  Widget status() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 20, top: 30),
+          child: Container(
+            child: Text('Status:',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
+        ),
+        Padding(
+            padding: const EdgeInsets.fromLTRB(35, 35, 10, 5),
+            child: Text(rep_status!,
+                style: (rep_status == 'DISPATCHED')
+                    ? TextStyle(
+                        fontSize: 22,
+                        color: Colors.yellow,
+                        fontWeight: FontWeight.bold)
+                    : (rep_status == 'RESOLVED')
+                        ? TextStyle(
+                            fontSize: 22,
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold)
+                        : TextStyle(
+                            fontSize: 22,
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold))),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, top: 25),
+          child: SizedBox(
+            height: 35,
+            width: 120,
+            child: ElevatedButton(
+              onPressed: (rep_status == 'DISPATCHED')
+                  ? () async {
+                      String resolved = "RESOLVED";
+                      var collection =
+                          FirebaseFirestore.instance.collection('reports');
+
+                      collection.doc(docid).update({'status': resolved});
+
+                      DocumentSnapshot variable = await FirebaseFirestore
+                          .instance
+                          .collection('units')
+                          .doc('110011')
+                          .get();
+
+                      DocumentSnapshot docSnap =
+                          await collection.doc(docid).get();
+
+                      String stream_status = docSnap.get('status');
+
+                      int? val_dispatch;
+                      int? val_avail;
+                      setState(() {
+                        if (dispatch == 0) {
+                          if (avail == 15) {
+                            val_avail = avail;
+                            val_dispatch = dispatch;
+                            DatabaseService()
+                                .dispatchUnits(val_avail, val_dispatch);
+                          }
+                        } else {
+                          avail = variable.get('available');
+                          dispatch = variable.get('dispatched');
+                          int? avail_set = avail! + 1;
+                          int? dispatch_set = dispatch! - 1;
+                          print(avail);
+                          DatabaseService()
+                              .dispatchUnits(avail_set, dispatch_set);
+                        }
+                        rep_status = stream_status;
+                      });
+                    }
+                  : () {},
+              child: Text("RESOLVE"),
+            ),
+          ),
+        )
+      ],
+    );
+  }
 
   Widget firstRow() => Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -381,7 +470,9 @@ class _ViewReportBodyState extends State<ViewReportBody> {
             child: SizedBox(
               height: 45,
               child: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  callNumber();
+                },
                 label: Text(
                   'CALL SENDER',
                   style: TextStyle(fontSize: 18),
@@ -402,18 +493,26 @@ class _ViewReportBodyState extends State<ViewReportBody> {
                     fontSize: 18,
                   ),
                 ),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) => popUpDialog(context),
-                  );
-                },
+                onPressed: (rep_status == 'WAITING')
+                    ? () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              popUpDialog(context),
+                        );
+                      }
+                    : () {},
                 icon: Icon(Icons.check),
               ),
             ),
           )
         ],
       );
+
+  callNumber() async {
+    String? number = contact;
+    bool? res = await FlutterPhoneDirectCaller.callNumber(number!);
+  }
 
   Widget popUpDialog(BuildContext context) {
     return AlertDialog(

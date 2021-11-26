@@ -32,6 +32,7 @@ class _LoginFormState extends State<RegisterBody> {
   String email = '';
   String password = '';
   String error = '';
+  bool _passwordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -88,11 +89,27 @@ class _LoginFormState extends State<RegisterBody> {
                             ? 'Enter a password 6+ chars long'
                             : null,
                         onChanged: (value) {
-                          setState(() => password = value);
+                          setState(
+                            () => password = value,
+                          );
                         },
-                        obscureText: true,
+                        obscureText: !_passwordVisible,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                });
+                              },
+                              icon: Icon(
+                                // Based on passwordVisible state choose the icon
+                                _passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.red,
+                              ),
+                            ),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                                 borderSide: BorderSide.none),

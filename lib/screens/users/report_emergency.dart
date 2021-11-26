@@ -56,7 +56,14 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-  var items = ['CAR CRASH', 'FIRE', 'FLOOD'];
+  var items = [
+    'CAR CRASH',
+    'FIRE',
+    'FLOOD',
+    'LANDSLIDE',
+    'DROWNING',
+    'EARTHQUAKE'
+  ];
   String? value;
 
   final desController = TextEditingController();
@@ -74,7 +81,7 @@ class _ReportScreenState extends State<ReportScreen> {
 
   Future getImage(ImageSource source) async {
     final image =
-        await ImagePicker().getImage(source: source, imageQuality: 10);
+        await ImagePicker().pickImage(source: source, imageQuality: 10);
 
     setState(() {
       _image = File(image!.path);
@@ -106,7 +113,7 @@ class _ReportScreenState extends State<ReportScreen> {
                         child: InputDecorator(
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.symmetric(
-                                horizontal: 50.0, vertical: 20),
+                                horizontal: 80.0, vertical: 20),
                             labelText: 'SELECT EMERGENCY',
                             labelStyle: TextStyle(
                               color: Colors.white,
@@ -117,9 +124,14 @@ class _ReportScreenState extends State<ReportScreen> {
                           child: DropdownButton<String>(
                             value: emer_type,
                             dropdownColor: Color(0xffBA0F30),
-                            items: <String>['CAR CRASH', 'FIRE', 'FLOOD']
-                                .map(builMenuItem)
-                                .toList(),
+                            items: <String>[
+                              'CAR CRASH',
+                              'FIRE',
+                              'FLOOD',
+                              'LANDSLIDE',
+                              'DROWNING',
+                              'EARTHQUAKE'
+                            ].map(builMenuItem).toList(),
                             onChanged: (value) {
                               setState(() {
                                 emer_type = value!;
@@ -140,8 +152,8 @@ class _ReportScreenState extends State<ReportScreen> {
                     Builder(builder: (BuildContext newContext) {
                       final applicationBloc =
                           Provider.of<ApplicationBloc>(newContext);
-                      currentLat = applicationBloc.currenLocation!.latitude;
-                      currentLong = applicationBloc.currenLocation!.longitude;
+                      currentLat = applicationBloc.currenLocation?.latitude;
+                      currentLong = applicationBloc.currenLocation?.longitude;
 
                       allMarkers.add(Marker(
                           markerId: MarkerId('myMarker'),
@@ -149,7 +161,9 @@ class _ReportScreenState extends State<ReportScreen> {
                           onTap: () {
                             print('Marker Tapped');
                           },
-                          position: LatLng(currentLat!, currentLong!)));
+                          position: LatLng(
+                              applicationBloc.currenLocation?.latitude ?? 0,
+                              applicationBloc.currenLocation?.longitude ?? 0)));
 
                       return (applicationBloc == null)
                           ? Container(child: CircularProgressIndicator())
@@ -168,7 +182,12 @@ class _ReportScreenState extends State<ReportScreen> {
                                               tilt: 45,
                                               zoom: 15,
                                               target: LatLng(
-                                                  currentLat!, currentLong!))),
+                                                  applicationBloc.currenLocation
+                                                          ?.latitude ??
+                                                      0,
+                                                  applicationBloc.currenLocation
+                                                          ?.longitude ??
+                                                      0))),
                                       Align(
                                           alignment: Alignment.topRight,
                                           child: Padding(
@@ -240,7 +259,7 @@ class _ReportScreenState extends State<ReportScreen> {
                         margin: EdgeInsets.only(top: 20),
                         child: Center(
                           child: _image == null
-                              ? Text("Image not loaded")
+                              ? Text("Image not loaded yet. Please wait.")
                               : Container(
                                   child: Image(image: FileImage(_image!))),
                         )),
@@ -294,22 +313,22 @@ class _ReportScreenState extends State<ReportScreen> {
                                 await ref.putFile(_image!);
 
                                 imageUrl = await ref.getDownloadURL();
-                                final DateTime now = DateTime.now();
-                                final DateFormat formatter =
+
+                                DateFormat formatted =
                                     DateFormat("yyyy-MM-dd hh:mm");
-                                final String formatted = formatter.format(now);
 
                                 DatabaseService().createReport(
-                                    desController.text,
-                                    userid,
-                                    name,
-                                    contactnum,
-                                    imageUrl,
-                                    emer_type,
-                                    currentLat,
-                                    currentLong,
-                                    formatted.toString(),
-                                    '');
+                                  desController.text,
+                                  userid,
+                                  name,
+                                  contactnum,
+                                  imageUrl,
+                                  emer_type,
+                                  currentLat,
+                                  currentLong,
+                                  'WAITING',
+                                  formatted.format(phonetime).toString(),
+                                );
                                 // print(txtvalue);
 
                                 showDialog(

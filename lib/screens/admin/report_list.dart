@@ -42,7 +42,10 @@ class _ReportListState extends State<ReportList> {
         backgroundColor: Colors.black,
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('reports').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('reports')
+            .orderBy('date_time')
+            .snapshots(),
         builder: buildReportList,
       ),
     );
@@ -56,55 +59,70 @@ class _ReportListState extends State<ReportList> {
             image: DecorationImage(
                 image: AssetImage("assets/buttons/MAIN BG.png"),
                 fit: BoxFit.cover)),
-        child: ListView.builder(
-          itemCount: snapshot.data!.docs.length,
-          itemBuilder: (context, index) {
-            String? type;
-            DocumentSnapshot report = snapshot.data!.docs[index];
-            type = report['emergency type'].toString();
-            return Padding(
-                padding: EdgeInsets.only(top: 8),
-                child: Card(
-                  margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(report['image url']),
-                        radius: 25,
-                      ),
-                      // leading: Icon(
-                      //   Icons.report,
-                      //   size: 50,
-                      //   color: Colors.red,
-                      // ),
-                      title: Text(type),
-                      subtitle: Text(report['date_time']),
-                      trailing: (report['status'] == 'DISPATCHED')
-                          ? Icon(
-                              Icons.verified_rounded,
-                              color: Colors.green,
-                              size: 30,
-                            )
-                          : null,
-                      onTap: () {
-                        print(report['longitude']);
-                        Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) => new ViewReportScreen(
-                                      date_time: report['date_time'].toString(),
-                                      rep_status: report['status'],
-                                      docid: report.id,
-                                      details: report['description'],
-                                      type: report['emergency type'],
-                                      sender: report['name'].toString(),
-                                      img: report['image url'],
-                                      contact: report['contact number'],
-                                      latitude: report['latitude'],
-                                      longitude: report['longitude'],
-                                    )));
-                      }),
-                ));
-          },
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: ListView.builder(
+            reverse: true,
+            shrinkWrap: true,
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              String? type;
+              DocumentSnapshot report = snapshot.data!.docs[index];
+              type = report['emergency type'].toString();
+              return Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Card(
+                    margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+                    child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(report['image url']),
+                          radius: 25,
+                        ),
+                        // leading: Icon(
+                        //   Icons.report,
+                        //   size: 50,
+                        //   color: Colors.red,
+                        // ),
+                        title: Text(
+                          type,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(report['date_time']),
+                        trailing: (report['status'] == 'DISPATCHED')
+                            ? Icon(
+                                Icons.verified_rounded,
+                                color: Colors.yellow,
+                                size: 30,
+                              )
+                            : (report['status'] == 'RESOLVED')
+                                ? Icon(
+                                    Icons.verified_rounded,
+                                    color: Colors.green,
+                                    size: 30,
+                                  )
+                                : null,
+                        onTap: () {
+                          print(report['longitude']);
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => new ViewReportScreen(
+                                        date_time:
+                                            report['date_time'].toString(),
+                                        rep_status: report['status'],
+                                        docid: report.id,
+                                        details: report['description'],
+                                        type: report['emergency type'],
+                                        sender: report['name'].toString(),
+                                        img: report['image url'],
+                                        contact: report['contact number'],
+                                        latitude: report['latitude'],
+                                        longitude: report['longitude'],
+                                      )));
+                        }),
+                  ));
+            },
+          ),
         ),
       );
     } else if (snapshot.connectionState == ConnectionState.done &&

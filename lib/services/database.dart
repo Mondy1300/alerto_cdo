@@ -31,12 +31,13 @@ class DatabaseService {
   //     FirebaseFirestore.instance.collection('reports').getDocuments();
 
   Future<void> updateUserData(
-      String? firstname,
-      String? middlename,
-      String? lastname,
-      String? birthday,
-      String? address,
-      String? contactNum) async {
+    String? firstname,
+    String? middlename,
+    String? lastname,
+    String? birthday,
+    String? address,
+    String? contactNum,
+  ) async {
     return await userCollection.doc(uid).set({
       'firstname': firstname,
       'middlename': middlename,

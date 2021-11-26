@@ -10,6 +10,7 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 class InfographicScreen extends StatelessWidget {
   const InfographicScreen({Key? key}) : super(key: key);
@@ -371,7 +372,9 @@ Widget call_now() => Padding(
             'CALL NOW?',
             style: TextStyle(color: Colors.black),
           ),
-          onPressed: () {},
+          onPressed: () {
+            _callNumber();
+          },
           icon: Icon(Icons.call),
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Color(0xff828282)),
@@ -379,6 +382,10 @@ Widget call_now() => Padding(
         ),
       ),
     );
+_callNumber() async {
+  const number = '09651541953';
+  bool? res = await FlutterPhoneDirectCaller.callNumber(number);
+}
 
 Widget bottomButtons(BuildContext context) => Container(
       child: Row(

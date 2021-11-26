@@ -1,16 +1,11 @@
-import 'package:alerto_cdo_v1/blocs/application_bloc.dart';
 import 'package:alerto_cdo_v1/google_login_controller.dart';
 import 'package:alerto_cdo_v1/loading.dart';
-import 'package:alerto_cdo_v1/my_icons_icons.dart';
 import 'package:alerto_cdo_v1/screens/admin/admin_home.dart';
-import 'package:alerto_cdo_v1/screens/admin/units.dart';
-import 'package:alerto_cdo_v1/screens/announce_list.dart';
 import 'package:alerto_cdo_v1/screens/users/accountinfo.dart';
+import 'package:alerto_cdo_v1/screens/users/announce_list_user.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/infographic.dart';
-import 'package:alerto_cdo_v1/screens/register.dart';
 import 'package:alerto_cdo_v1/screens/users/my_reports.dart';
 import 'package:alerto_cdo_v1/screens/users/report_emergency.dart';
-import 'package:alerto_cdo_v1/screens/signup.dart';
 import 'package:alerto_cdo_v1/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +13,6 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
   final controller = Get.put(LoginController());
@@ -320,7 +313,7 @@ Widget announcements() => Container(
       height: 400,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Announcelist(),
+        child: AnnouncelistUser(),
       ),
     );
 
@@ -342,7 +335,6 @@ Widget bottomButtons(BuildContext context) => Container(
     );
 
 Widget call_now() {
-  final numbah = '09755538637';
   return Padding(
     padding: const EdgeInsets.all(2.0),
     child: SizedBox(
@@ -367,7 +359,7 @@ Widget call_now() {
 }
 
 _callNumber() async {
-  const number = '09551161502';
+  const number = '09651541953';
   bool? res = await FlutterPhoneDirectCaller.callNumber(number);
 }
 

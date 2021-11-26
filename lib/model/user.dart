@@ -1,12 +1,4 @@
 class Users {
-  static void setString(String newVal) {
-    value = newVal;
-  }
-
-  static getString() {
-    return value;
-  }
-
   String? uid;
   String? local_uid;
   String? firstName;
