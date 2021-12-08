@@ -78,11 +78,13 @@ class DatabaseService {
     String? imgUrl,
     String? details,
     String? status,
+    String? subject,
   ) async {
     return await announceCollection.doc().set({
       'imgUrl': imgUrl,
       'details': details,
       'status': status,
+      'subject': subject,
     });
   }
 
@@ -198,6 +200,7 @@ class DatabaseService {
         details: doc['details'] ?? '',
         imgUrl: doc['imgUrl'] ?? '',
         status: doc['staus'] ?? '',
+        subject: doc['subject'] ?? '',
       );
     }).toList();
   }

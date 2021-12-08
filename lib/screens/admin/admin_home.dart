@@ -1,20 +1,53 @@
-import 'package:alerto_cdo_v1/model/report.dart';
-import 'package:alerto_cdo_v1/screens/admin/admin_viewreport.dart';
+import 'package:alerto_cdo_v1/loading.dart';
+import 'package:alerto_cdo_v1/screens/admin/admin_map.dart';
 import 'package:alerto_cdo_v1/screens/admin/units.dart';
 import 'package:alerto_cdo_v1/screens/admin/update_announcement.dart';
 import 'package:alerto_cdo_v1/screens/admin/report_list.dart';
-import 'package:alerto_cdo_v1/services/database.dart';
+import 'package:alerto_cdo_v1/screens/help.dart';
+import 'package:alerto_cdo_v1/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AdminHomeScreen extends StatelessWidget {
-  const AdminHomeScreen({Key? key}) : super(key: key);
+  final _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                ),
+                child: Row(
+                  children: [CircleAvatar()],
+                )),
+            ListTile(
+              title: Text('Help'
+                  // googleAccount.value?.email ?? '',
+                  // style: Get.textTheme.bodyText1,
+                  ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new HelpScreen()));
+              },
+            ),
+            ListTile(
+                title: Text('Logout'),
+                onTap: () async {
+                  // print(controller.getName());
+                  await _auth.signOut();
+                })
+          ],
+        ),
+      ),
       appBar: AppBar(
+        leading: null,
         title: Row(
           children: [
             Padding(
@@ -78,10 +111,10 @@ class _AdminBodyState extends State<AdminBody> {
             padding: const EdgeInsets.only(left: 20, bottom: 20, right: 20),
             child: postInfographics(),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 35, bottom: 20, right: 35),
-            child: logout(),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 35, bottom: 20, right: 35),
+          //   child: logout(),
+          // ),
         ],
       ),
     );
@@ -123,8 +156,16 @@ class _AdminBodyState extends State<AdminBody> {
       child: SizedBox(
           width: 300,
           height: 80,
-          child: Image(
-            image: AssetImage("assets/buttons/post infographics.png"),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new AdminMapScreen()));
+            },
+            child: Image(
+              image: AssetImage("assets/buttons/map.png"),
+            ),
           )));
 
   Widget logout() => Container(

@@ -175,12 +175,38 @@ class _ViewReportBodyState extends State<ViewReportBody> {
           secondRow(details),
           thirdRow(sender),
           thirdRowv2(contact),
-          fourthRow(img),
+          (img == null) ? Container() : fourthRow(img),
           buttons(context),
+          confirm(),
         ],
       ),
     );
   }
+
+  Widget confirm() => Padding(
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+        child: SizedBox(
+          width: 180,
+          height: 55,
+          child: ElevatedButton.icon(
+            label: Text(
+              'CONFIRM',
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            onPressed: (rep_status == 'WAITING')
+                ? () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => popUpDialog(context),
+                    );
+                  }
+                : () {},
+            icon: Icon(Icons.check),
+          ),
+        ),
+      );
 
   Widget dateTime() => Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -404,11 +430,14 @@ class _ViewReportBodyState extends State<ViewReportBody> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(30, 15, 10, 5),
-            child: Text(
-              name!,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                name!,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -466,8 +495,30 @@ class _ViewReportBodyState extends State<ViewReportBody> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(8, 50, 8, 8),
+            padding: const EdgeInsets.all(8),
             child: SizedBox(
+              height: 45,
+              width: 180,
+              child: ElevatedButton.icon(
+                icon: Icon(Icons.location_pin),
+                onPressed: (rep_status == 'WAITING')
+                    ? () {
+                        var collection =
+                            FirebaseFirestore.instance.collection('reports');
+
+                        collection.doc(docid).update({'status': 'RESOLVED'});
+                        Navigator.of(context).pop();
+                      }
+                    : () {},
+                label: Text("RESPONDED"),
+                style: ElevatedButton.styleFrom(primary: Colors.blueGrey),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(3, 10, 8, 8),
+            child: SizedBox(
+              width: 180,
               height: 45,
               child: ElevatedButton.icon(
                 onPressed: () {
@@ -475,37 +526,12 @@ class _ViewReportBodyState extends State<ViewReportBody> {
                 },
                 label: Text(
                   'CALL SENDER',
-                  style: TextStyle(fontSize: 18),
                 ),
                 icon: Icon(Icons.call),
                 style: ElevatedButton.styleFrom(primary: Colors.blueGrey),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8, 50, 8, 8),
-            child: SizedBox(
-              height: 45,
-              child: ElevatedButton.icon(
-                label: Text(
-                  'CONFIRM',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-                onPressed: (rep_status == 'WAITING')
-                    ? () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              popUpDialog(context),
-                        );
-                      }
-                    : () {},
-                icon: Icon(Icons.check),
-              ),
-            ),
-          )
         ],
       );
 

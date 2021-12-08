@@ -27,7 +27,7 @@ class EarthquakeInfoBody extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             image: DecorationImage(
-                image: AssetImage("assets/earthquake/bgtitle2.png"),
+                image: AssetImage("assets/earthquake/EARTHQBG.png"),
                 fit: BoxFit.cover)),
         child: Stack(
           children: [

@@ -8,6 +8,7 @@ import 'package:alerto_cdo_v1/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -270,9 +271,36 @@ class _ReportScreenState extends State<ReportScreen> {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(8, 50, 8, 8),
                           child: SizedBox(
+                            width: 180,
                             height: 45,
                             child: ElevatedButton.icon(
-                              onPressed: () {},
+                              onPressed: () async {
+                                first = userData!.firstname;
+                                middle = userData.middlename;
+                                last = userData.lastname;
+                                contactnum = userData.contactNum;
+                                name!.add(first);
+                                name!.add(middle);
+                                name!.add(last);
+                                DateTime phonetime = DateTime.now();
+
+                                DateFormat formatted =
+                                    DateFormat("yyyy-MM-dd hh:mm");
+
+                                DatabaseService().createReport(
+                                  'OTHERS',
+                                  userid,
+                                  name,
+                                  contactnum,
+                                  imageUrl,
+                                  '',
+                                  currentLat,
+                                  currentLong,
+                                  'WAITING',
+                                  formatted.format(phonetime).toString(),
+                                );
+                                _callNumber();
+                              },
                               label: Text(
                                 'VOICE CALL',
                                 style: TextStyle(fontSize: 18),
@@ -286,6 +314,7 @@ class _ReportScreenState extends State<ReportScreen> {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(8, 50, 8, 8),
                           child: SizedBox(
+                            width: 180,
                             height: 45,
                             child: ElevatedButton.icon(
                               label: Text(
@@ -351,6 +380,11 @@ class _ReportScreenState extends State<ReportScreen> {
             }
           }),
     );
+  }
+
+  _callNumber() async {
+    const number = '09553884668';
+    bool? res = await FlutterPhoneDirectCaller.callNumber(number);
   }
 
   DropdownMenuItem<String> builMenuItem(String item) => DropdownMenuItem(

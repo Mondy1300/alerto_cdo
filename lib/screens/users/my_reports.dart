@@ -89,10 +89,17 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
                                 size: 30,
                               )
                             : null,
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(report['image url']),
-                      radius: 25,
-                    ),
+                    leading: (report['image url'] == null)
+                        ? Icon(
+                            Icons.report,
+                            size: 50,
+                            color: Colors.red,
+                          )
+                        : CircleAvatar(
+                            backgroundImage:
+                                (NetworkImage(report['image url'])),
+                            radius: 25,
+                          ),
                     title: Padding(
                       padding: const EdgeInsets.only(top: 8, left: 8),
                       child: Text(type),

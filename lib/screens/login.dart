@@ -1,8 +1,7 @@
-import 'package:alerto_cdo_v1/screens/users/home.dart';
+import 'package:alerto_cdo_v1/screens/reset_screen.dart';
 import 'package:alerto_cdo_v1/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -32,6 +31,8 @@ class _LoginFormState extends State<LoginForm> {
   String email = '';
   String password = '';
   String error = '';
+
+  bool _passwordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +82,7 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
                       child: TextFormField(
                         validator: (value) => value!.length < 6
                             ? 'Enter a password 6+ chars long'
@@ -90,9 +90,23 @@ class _LoginFormState extends State<LoginForm> {
                         onChanged: (value) {
                           setState(() => password = value);
                         },
-                        obscureText: true,
+                        obscureText: !_passwordVisible,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                });
+                              },
+                              icon: Icon(
+                                // Based on passwordVisible state choose the icon
+                                _passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.red,
+                              ),
+                            ),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                                 borderSide: BorderSide.none),
@@ -100,6 +114,15 @@ class _LoginFormState extends State<LoginForm> {
                             filled: true,
                             fillColor: Color(0xffff868c)),
                       ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResetScreen()));
+                      },
+                      child: Text("Forgot Password?"),
                     ),
                     Text(
                       error,

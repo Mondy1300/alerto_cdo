@@ -46,6 +46,7 @@ class NewAnnoucementBody extends StatefulWidget {
 
 class _NewAnnoucementBodyState extends State<NewAnnoucementBody> {
   final detController = TextEditingController();
+  final subjectController = TextEditingController();
   String? txtval;
   File? _image;
   String status = 'active';
@@ -65,6 +66,33 @@ class _NewAnnoucementBodyState extends State<NewAnnoucementBody> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(165, 65, 10, 10),
+            child: Text(
+              'SUBJECT',
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+            child: Container(
+              height: 100,
+              child: TextField(
+                controller: subjectController,
+                decoration: const InputDecoration(
+                  hintText: "Enter Subject",
+                  contentPadding: const EdgeInsets.symmetric(vertical: 5.0),
+                ),
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+              ),
+              decoration:
+                  BoxDecoration(border: Border.all(color: Colors.black)),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(165, 25, 10, 10),
             child: Text(
               'DETAILS',
               style: TextStyle(
@@ -107,7 +135,7 @@ class _NewAnnoucementBodyState extends State<NewAnnoucementBody> {
               margin: EdgeInsets.only(top: 20),
               child: Center(
                 child: _image == null
-                    ? Text("Image not loaded")
+                    ? Text("Image not loaded yet. Please Wait")
                     : Container(child: Image(image: FileImage(_image!))),
               )),
           Padding(
@@ -124,10 +152,11 @@ class _NewAnnoucementBodyState extends State<NewAnnoucementBody> {
                       .child("announce_img")
                       .child(phonetime.toString() + '.jpg');
                   await ref.putFile(_image!);
+
                   String? imageUrl = await ref.getDownloadURL();
 
-                  DatabaseService()
-                      .createAnnouncement(imageUrl, detController.text, status);
+                  DatabaseService().createAnnouncement(imageUrl,
+                      detController.text, status, subjectController.text);
 
                   showDialog(
                     context: context,

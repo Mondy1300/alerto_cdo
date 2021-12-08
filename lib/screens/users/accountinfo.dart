@@ -1,6 +1,6 @@
 import 'package:alerto_cdo_v1/loading.dart';
 import 'package:alerto_cdo_v1/model/user.dart';
-import 'package:alerto_cdo_v1/services/auth_service.dart';
+import 'package:alerto_cdo_v1/screens/reset_screen.dart';
 import 'package:alerto_cdo_v1/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +33,9 @@ class AccountBody extends StatefulWidget {
 }
 
 class _AccountBodyState extends State<AccountBody> {
+  final firstDate = DateTime(1950, 1);
+  final lastDate = DateTime(2022, 12);
+  DateTime selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     String? userid;
@@ -65,7 +68,7 @@ class _AccountBodyState extends State<AccountBody> {
                     children: [
                       SizedBox(height: 70.0),
                       Padding(
-                        padding: const EdgeInsets.only(left: 20),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         child: SizedBox(
                           width: 300,
                           child: TextFormField(
@@ -74,7 +77,7 @@ class _AccountBodyState extends State<AccountBody> {
                                 val!.isEmpty ? 'Please enter firstname' : null,
                             onSaved: (val) => setState(() => _firstname = val),
                             decoration: InputDecoration(
-                              hintText: 'Firstname',
+                              labelText: 'Firstname',
                               contentPadding: EdgeInsets.all(16.0),
                               fillColor: Colors.white,
                               filled: true,
@@ -88,7 +91,7 @@ class _AccountBodyState extends State<AccountBody> {
                       ),
                       SizedBox(height: 20.0),
                       Padding(
-                        padding: const EdgeInsets.only(left: 20),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         child: SizedBox(
                           width: 300,
                           child: TextFormField(
@@ -111,7 +114,7 @@ class _AccountBodyState extends State<AccountBody> {
                       ),
                       SizedBox(height: 20.0),
                       Padding(
-                        padding: const EdgeInsets.only(left: 20),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         child: SizedBox(
                           width: 300,
                           child: TextFormField(
@@ -137,6 +140,10 @@ class _AccountBodyState extends State<AccountBody> {
                         ),
                       ),
                       SizedBox(height: 20.0),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: 15, right: 15),
+                      //   child: dateField(),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: SizedBox(
@@ -166,7 +173,7 @@ class _AccountBodyState extends State<AccountBody> {
                       ),
                       SizedBox(height: 20.0),
                       Padding(
-                        padding: const EdgeInsets.only(left: 20),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         child: SizedBox(
                           width: 300,
                           child: TextFormField(
@@ -193,7 +200,7 @@ class _AccountBodyState extends State<AccountBody> {
                       ),
                       SizedBox(height: 20.0),
                       Padding(
-                        padding: const EdgeInsets.only(left: 20),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         child: SizedBox(
                           width: 300,
                           child: TextFormField(
@@ -221,7 +228,8 @@ class _AccountBodyState extends State<AccountBody> {
                       ),
                       SizedBox(height: 20.0),
                       Padding(
-                        padding: const EdgeInsets.only(left: 20),
+                        padding:
+                            const EdgeInsets.only(left: 15, right: 15, top: 20),
                         child: SizedBox(
                           width: 200,
                           height: 50,
@@ -253,6 +261,23 @@ class _AccountBodyState extends State<AccountBody> {
                             label: Text('Update'),
                           ),
                         ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 15, right: 15, top: 20),
+                        child: SizedBox(
+                          width: 200,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ResetScreen()));
+                            },
+                            child: Text("Change Password"),
+                          ),
+                        ),
                       )
                     ],
                   ));
@@ -262,6 +287,48 @@ class _AccountBodyState extends State<AccountBody> {
             }
           }),
     );
+  }
+
+  Widget dateField() => Container(
+        child: Row(
+          children: [
+            Icon(Icons.date_range),
+            Container(
+              margin: EdgeInsets.only(left: 15),
+              child: Text(
+                'Date of Birth:',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            Container(
+                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                child: SizedBox(
+                  child: Text(
+                    '$selectedDate'.split(' ')[0],
+                    style: TextStyle(fontSize: 18),
+                  ),
+                )),
+            ElevatedButton(
+              onPressed: () => _openDatePicker(context),
+              child: Text('Select Date'),
+            )
+          ],
+        ),
+      );
+
+  _openDatePicker(BuildContext context) async {
+    final DateTime? date = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: firstDate,
+      lastDate: lastDate,
+    );
+    if (date != null) {
+      setState(() {
+        selectedDate = date;
+        print('Date: $date');
+      });
+    }
   }
 
   Widget popUpDialog(BuildContext context) {

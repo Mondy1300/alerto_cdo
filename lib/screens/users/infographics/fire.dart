@@ -27,7 +27,8 @@ class FireInfoBody extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             image: DecorationImage(
-                image: AssetImage("assets/fire/BG12.png"), fit: BoxFit.cover)),
+                image: AssetImage("assets/fire/FIREBG.png"),
+                fit: BoxFit.cover)),
         child: Stack(
           children: [
             PageView(

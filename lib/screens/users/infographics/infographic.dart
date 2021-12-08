@@ -1,3 +1,4 @@
+import 'package:alerto_cdo_v1/screens/users/infographics/car_crash.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/drowning.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/earthquake.dart';
 import 'package:alerto_cdo_v1/screens/users/infographics/fire.dart';
@@ -273,8 +274,16 @@ Widget car_crash(BuildContext context) => Container(
       child: SizedBox(
           width: 180,
           height: 110,
-          child: Image(
-            image: AssetImage("assets/buttons/car crash.png"),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => CarCrashInfoScreen()));
+            },
+            child: Image(
+              image: AssetImage("assets/buttons/car crash.png"),
+            ),
           )),
     ));
 
@@ -299,7 +308,7 @@ Widget landslide(BuildContext context) => Container(
 
 Widget drowning(BuildContext context) => Container(
         child: Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 0, 35),
+      padding: const EdgeInsets.fromLTRB(20, 10, 0, 35),
       child: SizedBox(
           width: 180,
           height: 110,
@@ -337,31 +346,32 @@ Widget earthquake(BuildContext context) => Container(
 
 Widget emergency(context) => Padding(
       padding: const EdgeInsets.all(2),
-      child: SizedBox(
-        width: 160,
-        height: 50,
-        child: OutlinedButton.icon(
-          label: Text(
-            'EMERGENCY',
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () {
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => new ReportEmergency()));
-          },
-          icon: Icon(
-            Icons.warning,
-            color: Colors.white,
-          ),
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Color(0xffFF0000)),
+      child: Center(
+        child: SizedBox(
+          width: 360,
+          height: 50,
+          child: OutlinedButton.icon(
+            label: Text(
+              'EMERGENCY',
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new ReportEmergency()));
+            },
+            icon: Icon(
+              Icons.warning,
+              color: Colors.white,
+            ),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Color(0xffFF0000)),
+            ),
           ),
         ),
       ),
     );
-
 Widget call_now() => Padding(
       padding: const EdgeInsets.all(2.0),
       child: SizedBox(
@@ -383,7 +393,7 @@ Widget call_now() => Padding(
       ),
     );
 _callNumber() async {
-  const number = '09651541953';
+  const number = '09553884668';
   bool? res = await FlutterPhoneDirectCaller.callNumber(number);
 }
 
@@ -392,10 +402,6 @@ Widget bottomButtons(BuildContext context) => Container(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10, bottom: 7),
-            child: call_now(),
-          ),
           Padding(
             padding: const EdgeInsets.only(left: 10, bottom: 7),
             child: emergency(context),

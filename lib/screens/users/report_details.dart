@@ -66,7 +66,7 @@ class MyReportsDetails extends StatelessWidget {
               dateTime(),
               firstRow(),
               secondRow(),
-              fourthRow(),
+              (img == null) ? Container() : fourthRow()
             ],
           ),
         ),
@@ -245,14 +245,15 @@ class MyReportsDetails extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(35, 10, 10, 25),
             child: Container(
-                height: 300,
-                width: 270,
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.black)),
-                child: Image.network(
-                  img!,
-                  fit: BoxFit.fill,
-                )),
+              height: 300,
+              width: 270,
+              decoration:
+                  BoxDecoration(border: Border.all(color: Colors.black)),
+              child: Image.network(
+                img!,
+                fit: BoxFit.fill,
+              ),
+            ),
           )
         ],
       );

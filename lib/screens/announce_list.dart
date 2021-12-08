@@ -57,6 +57,8 @@ Widget _buildAnnounce(
                 //   color: Colors.red,
                 // ),
                 // title: Text(type),
+                title: Text(announce['subject'],
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Text(announce['details']),
               ),
             ),

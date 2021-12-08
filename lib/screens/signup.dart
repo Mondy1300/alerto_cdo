@@ -33,8 +33,6 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  DateTime selectedDate = DateTime.now();
-
   CollectionReference alerto_users =
       FirebaseFirestore.instance.collection('alerto_users');
   Users _user = Users();
@@ -42,6 +40,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   final firstDate = DateTime(1950, 1);
   final lastDate = DateTime(2021, 12);
+  DateTime selectedDate = DateTime.now();
 
   final _formKey = GlobalKey<FormState>();
 
